@@ -78,6 +78,7 @@ typings/
 #DynamoDB Local files 
 .dynamodb/ 
 
+.vscode
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
