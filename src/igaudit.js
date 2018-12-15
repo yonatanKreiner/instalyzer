@@ -48,7 +48,7 @@ const checkAccount = async (account) => {
 
 		return getFakeRate({ id: user.userId, account }, followersArray);
 	} catch (err) {
-		console.error(1, err.message);
+		console.error(err.message);
 	}
 };
 

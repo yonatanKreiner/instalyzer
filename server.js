@@ -4,8 +4,10 @@ const router = require('./src');
 
 const app = express();
 
+const port = 3001;
+
 app.use('/', router);
 
-app.listen(3000, () => {
-	console.log('listening on 3000'); //eslint-disable-line no-console
+app.listen(port, () => {
+	console.log('listening on ' + port); //eslint-disable-line no-console
 });
