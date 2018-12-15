@@ -30,8 +30,9 @@ const getFakeRate = async (user, followersArray) => {
 	const res = await axios.post('https://fetcher.igaudit.io/statistics', {
 		data: followersArray, username: user.account, userId: user.id
 	});
+	const rate = (100 - res.data.real_follower_percentage).toFixed(2);
 
-	return { rate: 100 - res.data.real_follower_percentage };
+	return rate;
 };
 
 const checkAccount = async (account) => {
