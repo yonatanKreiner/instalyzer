@@ -6,6 +6,6 @@ const app = express();
 
 app.use('/', router);
 
-app.listen(3000, () => {
-	console.log('listening on 3000'); //eslint-disable-line no-console
+app.listen(3001, () => {
+	console.log('listening on 3001'); //eslint-disable-line no-console
 });
