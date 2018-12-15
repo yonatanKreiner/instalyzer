@@ -13,14 +13,16 @@ const getFollowers = async (account) => {
 
 const splitFollowers = (followers) => {
 	const chunks = [];
-	const chunksNum = followers.length / 20;
+	const chunkSize = 20;
+	const chunksNum = followers.length / chunkSize;
 
 	for (let i = 0; i < chunksNum; i++) {
-		chunks[i] = followers.slice(i, i + 20);
+		const followersChunk = i * chunkSize;
+		chunks[i] = followers.slice(followersChunk, followersChunk + chunkSize);
 	}
 	
-	if (followers.length % 20 !== 0) {
-		chunks[chunksNum + 1] = followers.slice(chunksNum * 20, chunksNum);
+	if (followers.length % chunkSize !== 0) {
+		chunks[chunksNum + 1] = followers.slice(chunksNum * chunkSize, chunksNum);
 	}
 
 	return chunks;
