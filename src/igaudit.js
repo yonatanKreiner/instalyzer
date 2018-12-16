@@ -54,8 +54,4 @@ const checkAccount = async (account) => {
 	}
 };
 
-process.on('unhandledRejection', (err) => {
-	console.error(err);
-});
-
 module.exports = checkAccount;
