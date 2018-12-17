@@ -13,7 +13,7 @@ const getAccount = async (account) => {
 	try {
 		const res = await axios.post('https://fetcher.igaudit.io/users', { usernames: [account] });
 		const accountSearch = await searchAccounts(account);
-		const filteredAccount = accountSearch.filter(function (accountItem) { return accountItem.username === account })[0];
+		const filteredAccount = accountSearch.filter((accountItem) => (accountItem.username === account))[0];
 
 		return ({
 			username: filteredAccount.username,
@@ -45,6 +45,6 @@ const getPopularSearches = async () => {
 	} catch (err) {
 		console.error(err.message);
 	}
-}
+};
 
 module.exports = { searchAccounts, getAccount, getPopularSearches };
