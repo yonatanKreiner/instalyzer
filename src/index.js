@@ -16,4 +16,8 @@ router.get('/accounts', async (req, res) => {
 	res.send(await instagram.searchAccounts(req.query.query));
 });
 
+router.get('/popular', async (req, res) => {
+	res.send(await instagram.getPopularSearches());
+})
+
 module.exports = router;

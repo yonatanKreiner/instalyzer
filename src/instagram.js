@@ -28,4 +28,23 @@ const getAccount = async (account) => {
 	}
 };
 
-module.exports = { searchAccounts, getAccount };
+const getPopularSearches = async () => {
+	try {
+		const eyalgolan = await getAccount('eyalgolan1');
+		const static = await getAccount('static_official');
+		const noakirel = await getAccount('noakirel_');
+		const galgadot = await getAccount('gal_gadot');
+
+		return ([
+			static,
+			galgadot,
+			noakirel,
+			eyalgolan,
+		]);
+
+	} catch (err) {
+		console.error(err.message);
+	}
+}
+
+module.exports = { searchAccounts, getAccount, getPopularSearches };
