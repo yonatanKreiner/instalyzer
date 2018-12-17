@@ -11,17 +11,22 @@ const searchAccounts = async (account) => {
 
 const getAccount = async (account) => {
 	try {
-		const res = await axios.post('https://fetcher.igaudit.io/users', { usernames: [account] });
-		const accountSearch = await searchAccounts(account);
+		let accountStatistics = axios.post('https://fetcher.igaudit.io/users', { usernames: [account] });
+		let accountSearch = searchAccounts(account);
+		const accountData = await Promise.all([accountStatistics, accountSearch]);
+
+		accountStatistics = accountData[0].data.data[0];
+		accountSearch = accountData[1];
+
 		const filteredAccount = accountSearch.filter((accountItem) => (accountItem.username === account))[0];
 
 		return ({
 			username: filteredAccount.username,
 			full_name: filteredAccount.full_name,
 			avatar_url: filteredAccount.avatar_url,
-			mediaPosts: res.data.data[0].mediaPosts,
-			followingCount: res.data.data[0].followingCount,
-			followerCount: res.data.data[0].followerCount,
+			mediaPosts: accountStatistics.mediaPosts,
+			followingCount: accountStatistics.followingCount,
+			followerCount: accountStatistics.followerCount,
 		});
 	} catch (err) {
 		console.error(err.message);
@@ -30,17 +35,10 @@ const getAccount = async (account) => {
 
 const getPopularSearches = async () => {
 	try {
-		const eyalgolan = await getAccount('eyalgolan1');
-		const static = await getAccount('static_official');
-		const noakirel = await getAccount('noakirel_');
-		const galgadot = await getAccount('gal_gadot');
-
-		return ([
-			static,
-			galgadot,
-			noakirel,
-			eyalgolan,
-		]);
+		return await Promise.all([getAccount('eyalgolan1'), 
+			getAccount('static_official'),
+			getAccount('noakirel_'),
+			getAccount('gal_gadot')]);
 
 	} catch (err) {
 		console.error(err.message);
