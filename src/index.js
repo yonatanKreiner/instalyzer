@@ -5,9 +5,9 @@ const sendMail = require('./mail');
 
 const router = express.Router();
 
-router.get('/account/:id', async (req, res) => {
-	res.send(await checkAccount(req.params.id));
-});
+// router.get('/account/:id', async (req, res) => {
+// 	res.send(await checkAccount(req.params.id));
+// });
 
 router.get('/account/:id/data', async (req, res) => {
 	res.send(await instagram.getAccount(req.params.id));
@@ -22,7 +22,7 @@ router.get('/popular', async (req, res) => {
 });
 
 router.post('/report', async(req, res) => {
-	sendMail(req.body.mail, (err) => {
+	sendMail(req.body.mail, req.body.account, (err) => {
 		if (err) {
 			res.status(500).send('Server error');
 		}
