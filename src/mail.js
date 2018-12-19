@@ -1,5 +1,4 @@
 const nodemailer = require('nodemailer');
-const checkAccount = require('./igaudit');
 
 const createMailOptions = (account, reportPercentage, mailAddress, address) => {
 	const text = reportPercentage
@@ -20,10 +19,10 @@ const createMailOptions = (account, reportPercentage, mailAddress, address) => {
 		subject: 'דו"ח Instalyzer.co.il',
 		text: text,
 	};
-}
+};
 
 
-const sendMail = async (address, account, cb) => {
+const sendMail = async (address, account, data, cb) => {
 	const mailAddress = 'instalyzeril@gmail.com';
 
 	const transporter = nodemailer.createTransport({
@@ -34,27 +33,15 @@ const sendMail = async (address, account, cb) => {
 		}
 	});
 
-	cb(null);
+	const mailOptions = createMailOptions(account, data, mailAddress, address);
 
-	let result = null;
-	let retries = 5;
-	while (!result && retries > 0) {
-		result = await checkAccount(account);
-	}
-
-	const mailOptions = createMailOptions(account, result, mailAddress, address);
-	if (result) {
-		transporter.sendMail(mailOptions, (err, info) => {
-			if (err) {
-				console.log(err);
-			} else {
-				console.log(`A report for account ${account} with percentage ${result} was sent to ${address}`);
-				console.log(info);
-			}
-		});
-	} else {
-		console.error(`There is a problem with result field: result = ${result}`);
-	}
+	transporter.sendMail(mailOptions, (err) => {
+		if (err) {
+			cb(err);
+		} else {
+			cb(null, `A report for account ${account} with percentage ${data} was sent to ${address}`);
+		}
+	});
 };
 
 module.exports = sendMail;
