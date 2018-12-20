@@ -1,11 +1,11 @@
 const nodemailer = require('nodemailer');
 
-const createMailOptions = (account, reportPercentage, mailAddress, address) => {
-	const text = reportPercentage
+const createMailOptions = (account, fakeRate, fromAddress, toAddress) => {
+	const text = fakeRate
 		? `היי משתמש Instalyzer יקר,
 הדו"ח שביקשת מוכן:
 
-אחוז העוקבים המזוייפים / הלא פעילים של משתמש האינסטגרם ${account} הוא - ${reportPercentage}%.
+אחוז העוקבים המזוייפים / הלא פעילים של משתמש האינסטגרם ${account} הוא - ${fakeRate}%.
 
 אנו מודים לך על שיתוף הפעולה!`
 		: `היי משתמש Instalyzer יקר.
@@ -14,32 +14,32 @@ const createMailOptions = (account, reportPercentage, mailAddress, address) => {
 אנו מתנצלים, אנא נסו שוב בעוד מספר דקות.`;
 
 	return {
-		from: mailAddress,
-		to: address,
+		from: fromAddress,
+		to: toAddress,
 		subject: 'דו"ח Instalyzer.co.il',
 		text: text,
 	};
 };
 
 
-const sendMail = async (address, account, data, cb) => {
-	const mailAddress = 'instalyzeril@gmail.com';
+const sendMail = async (toAddress, account, fakeRate, cb) => {
+	const fromAddress = 'instalyzeril@gmail.com';
 
 	const transporter = nodemailer.createTransport({
 		service: 'gmail',
 		auth: {
-			user: mailAddress,
+			user: fromAddress,
 			pass: 'Aa123456!'
 		}
 	});
 
-	const mailOptions = createMailOptions(account, data, mailAddress, address);
+	const mailOptions = createMailOptions(account, fakeRate, fromAddress, toAddress);
 
 	transporter.sendMail(mailOptions, (err) => {
 		if (err) {
 			cb(err);
 		} else {
-			cb(null, `A report for account ${account} with percentage ${data} was sent to ${address}`);
+			cb(null, `A report for account ${account} with percentage ${fakeRate} was sent to ${toAddress}`);
 		}
 	});
 };

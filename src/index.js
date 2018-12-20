@@ -31,8 +31,8 @@ router.get('/popular', async (req, res, next) => {
 
 router.post('/report', async(req, res, next) => {
 	new Promise(async (reslove, reject) => {
-		const accountData = await checkAccount(req.body.account);
-		sendMail(req.body.mail, accountData, (err, data) => {
+		const fakeRate = await checkAccount(req.body.account);
+		sendMail(req.body.mail, req.body.account, fakeRate, (err, data) => {
 			if (err) {
 				reject(err.message);
 			}
