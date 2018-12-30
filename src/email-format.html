@@ -2,6 +2,18 @@
 
 <head>
     <style>
+        .title-color-poor {
+            background-color: #ff0000;
+        }
+
+        .title-color-good {
+            background-color: #b7ea3f;
+        }
+
+        .title-color-very-good {
+            background-color: #6dde48;
+        }
+
         .table-body-row {
             font-weight: normal;
             font-size: 15px;
@@ -27,8 +39,10 @@
 <table align='center' style="text-align: right; width: 500px; border: 1px solid black">
     <tr style="height: 75px; border-bottom: 1px solid rgba(0,0,0,.0975);">
         <th style="border-bottom: 1px solid rgba(0,0,0,.0975)">
-            <img style="margin-right: 10px; width: 35px" src="https://ci6.googleusercontent.com/proxy/xaBDS_1A3shiYTmMwFcJtm6kbgFdj1LNkGdJ53rNiaSPMGIFmxu8LwJxMPNcuKKdsq_I3RY4elcn2ADpVb-b2HxiqUhjK_nNn6kp8u4=s0-d-e1-ft#http://www.instalyzer.co.il/static/media/logo.36f31357.png"
-                alt="">
+            <a target="_blank" rel="noopener noreferrer" style="text-decoration: none" href="http://www.instalyzer.co.il">
+                <img style="margin-right: 10px; width: 35px" src="https://ci6.googleusercontent.com/proxy/xaBDS_1A3shiYTmMwFcJtm6kbgFdj1LNkGdJ53rNiaSPMGIFmxu8LwJxMPNcuKKdsq_I3RY4elcn2ADpVb-b2HxiqUhjK_nNn6kp8u4=s0-d-e1-ft#http://www.instalyzer.co.il/static/media/logo.36f31357.png"
+                    alt="">
+            </a>
             <div style="display: inline-block; height: 33px; margin: 0px 15px; border-left: 1px solid black"></div>
             <table style="height: 45px; display: inline-block; text-align: right;">
                 <tr>
@@ -63,7 +77,7 @@
                 </tr>
                 <tr>
                     <th class="table-body-row">
-                        <span>סיווג</span>
+                        <span style="text-decoration: underline">סיווג</span>
                         <ul style="margin: 0; list-style: none; padding: 0;">
                             <li><span class="report-classified-user-type">אנשים אמיתיים</span><span>%REAL_PEOPLE%%</span></li>
                             <li><span class="report-classified-user-type">בעלי יותר מ-5000 עוקבים</span><span>%INFLUENCERS%%</span></li>
@@ -77,11 +91,70 @@
                         <span style="font-size: 16px; margin-bottom: 5px; font-weight: bold; display: block">יחס לייקים
                             לתגובות</span>
                         <span>
-                            <span style="display: inline-block; width: 12px; height: 12px; background-color: #6dde48; border-radius: 10px;"></span>
+                            <span class='%LIKE_TO_COMMENT_RATIO_COLOR%' style="display: inline-block; width: 12px; height: 12px; border-radius: 10px;"></span>
                             <span style="font-size: 16px; font-weight: bold;">%LIKE_TO_COMMENT_RATIO_TITLE%</span>
                         </span>
                         <span style="font-size: 14px; color: rgb(119, 119, 119); margin-top: 7px; display: block">%LIKE_TO_COMMENT_RATIO_VALUE%
-                            לייקים לכל תגובה, הממוצע הוא %LIKE_TO_COMMENT_RATIO_AVG%.</span>
+                            לייקים לכל תגובה, הממוצע הוא %LIKE_TO_COMMENT_RATIO_AVG%</span>
+                    </th>
+                </tr>
+                <tr>
+                    <th style="height:100px" class="table-body-row">
+                        <span style="font-size: 16px; margin-bottom: 5px; font-weight: bold; display: block">אמינות
+                            עוקבים</span>
+                        <span>
+                            <span class='%FOLLOWERS_AUTHENTICITY_COLOR%' style="display: inline-block; width: 12px; height: 12px; border-radius: 10px;"></span>
+                            <span style="font-size: 16px; font-weight: bold;">%FOLLOWERS_AUTHENTICITY_TITLE%</span>
+                        </span>
+                        <span style="font-size: 14px; color: rgb(119, 119, 119); margin-top: 7px; display: block">%FOLLOWERS_AUTHENTICITY_VALUE%%
+                            עוקבים אמינים, הממוצע הוא %FOLLOWERS_AUTHENTICITY_AVG%%</span>
+                    </th>
+                </tr>
+                <tr>
+                    <th style="height:100px" class="table-body-row">
+                        <span style="font-size: 16px; margin-bottom: 5px; font-weight: bold; display: block">אחוז
+                            עוקבים פעילים (מבצעים לייק או תגובה)</span>
+                        <span>
+                            <span class='%ACTIVE_FOLLOWERS_COLOR%' style="display: inline-block; width: 12px; height: 12px; border-radius: 10px;"></span>
+                            <span style="font-size: 16px; font-weight: bold;">%ACTIVE_FOLLOWERS_TITLE%</span>
+                        </span>
+                        <span style="font-size: 14px; color: rgb(119, 119, 119); margin-top: 7px; display: block">%ACTIVE_FOLLOWERS_VALUE%%
+                            מבצעים פעולות אקטיביות, הממוצע הוא %ACTIVE_FOLLOWERS_AVG%%</span>
+                    </th>
+                </tr>
+                <tr>
+                    <th style="height:100px" class="table-body-row">
+                        <span style="font-size: 16px; margin-bottom: 5px; font-weight: bold; display: block">אחוז
+                            עוקבים פעילים על תוכן פרסומי</span>
+                        <span>
+                            <span class='%ACTIVE_FOLLOWERS_AD_COLOR%' style="display: inline-block; width: 12px; height: 12px; border-radius: 10px;"></span>
+                            <span style="font-size: 16px; font-weight: bold;">%ACTIVE_FOLLOWERS_AD_TITLE%</span>
+                        </span>
+                        <span style="font-size: 14px; color: rgb(119, 119, 119); margin-top: 7px; display: block">%ACTIVE_FOLLOWERS_AD_VALUE%%
+                            מבצעים פעולות אקטיביות על תוכן פרסומי, הממוצע הוא %ACTIVE_FOLLOWERS_AD_AVG%%</span>
+                    </th>
+                </tr>
+                <tr>
+                    <th style="height:100px" class="table-body-row">
+                        <span style="margin-top: 15px; font-size: 16px; margin-bottom: 5px; font-weight: bold; display: block">מידע
+                            נוסף</span>
+                        <span style="font-size: 14px; color: rgb(119, 119, 119); margin-top: 7px; display: block">
+                            <span style="margin-left: 5px">אחוז פוסטים פרסומיים:</span>
+                            <span>%AD_POSTS_PERCENTAGE%%</span>
+                        </span>
+                        <span style="font-size: 14px; color: rgb(119, 119, 119); margin-top: 7px; display: block">
+                            <span style="margin-left: 5px">אחוז גברים עוקבים:</span>
+                            <span>%MALE_PERCENTAGE%%</span>
+                        </span>
+                        <span style="margin-bottom: 30px; font-size: 14px; color: rgb(119, 119, 119); margin-top: 7px; display: block">
+                            <span style="margin-left: 5px">אחוז נשים עוקבות:</span>
+                            <span>%FEMALE_PERCENTAGE%%</span>
+                        </span>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        <a target="_blank" rel="noopener noreferrer" style="color: #0074ff; text-decoration: none" href="http://www.instalyzer.co.il">www.instalyzer.co.il</a>
                     </th>
                 </tr>
             </table>
