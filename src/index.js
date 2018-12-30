@@ -1,5 +1,4 @@
 const express = require('express');
-const checkAccount = require('./igaudit');
 const instagram = require('./instagram');
 const sendMail = require('./mail');
 
@@ -31,8 +30,7 @@ router.get('/popular', async (req, res, next) => {
 
 router.post('/report', async(req, res, next) => {
 	new Promise(async (reslove, reject) => {
-		const fakeRate = await checkAccount(req.body.account);
-		sendMail(req.body.mail, req.body.account, fakeRate, (err, data) => {
+		sendMail(req.body.mail, req.body.account, (err, data) => {
 			if (err) {
 				reject(err.message);
 			}
