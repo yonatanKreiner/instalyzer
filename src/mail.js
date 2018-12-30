@@ -1,28 +1,19 @@
 const nodemailer = require('nodemailer');
+const getReport = require('./hypeauditor');;
 
-const createMailOptions = (account, fakeRate, fromAddress, toAddress) => {
-	const text = fakeRate
-		? `היי משתמש Instalyzer יקר,
-הדו"ח שביקשת מוכן:
-
-אחוז העוקבים המזוייפים / הלא פעילים של משתמש האינסטגרם ${account} הוא - ${fakeRate}%.
-
-אנו מודים לך על שיתוף הפעולה!`
-		: `היי משתמש Instalyzer יקר.
-היתה תקלה ביצירת דו"ח עבור משתמש האינסטגרם ${account}
-
-אנו מתנצלים, אנא נסו שוב בעוד מספר דקות.`;
+const createMailOptions = async (account, fromAddress, toAddress) => {
+	const text = await getReport(account);
 
 	return {
 		from: fromAddress,
 		to: toAddress,
 		subject: 'דו"ח Instalyzer.co.il',
-		text: text,
+		html: text,
 	};
 };
 
 
-const sendMail = async (toAddress, account, fakeRate, cb) => {
+const sendMail = async (toAddress, account, cb) => {
 	const fromAddress = 'instalyzeril@gmail.com';
 
 	const transporter = nodemailer.createTransport({
@@ -33,7 +24,7 @@ const sendMail = async (toAddress, account, fakeRate, cb) => {
 		}
 	});
 
-	const mailOptions = createMailOptions(account, fakeRate, fromAddress, toAddress);
+	const mailOptions = await createMailOptions(account, fromAddress, toAddress);
 
 	transporter.sendMail(mailOptions, (err) => {
 		if (err) {
