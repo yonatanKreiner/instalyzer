@@ -1,6 +1,7 @@
 const express = require('express');
 const instagram = require('./instagram');
 const sendMail = require('./mail');
+const log = require('./log');
 
 const router = express.Router();
 
@@ -29,23 +30,25 @@ router.get('/popular', async (req, res, next) => {
 });
 
 router.post('/report', async(req, res, next) => {
-	new Promise(async (reslove, reject) => {
+	try {
 		sendMail(req.body.mail, req.body.account, (err, data) => {
 			if (err) {
-				reject(err.message);
+				log('failed sending mail', err);
+			} else {
+				log(data);
 			}
-	
-			reslove(data);
 		});
-	}).then(console.log).catch(next);
-
-	res.send('OK');
+	
+		res.send('OK');
+	} catch (err) {
+		next(err);
+	}
 });
 
 // eslint-disable-next-line no-unused-vars
 router.use((err, req, res, next) => {
-	console.error(err.message);
-	res.status(500).send('Server error');
+	log('an error has occured', err);
+	res.status(500).send('internal server error');
 });
 
 module.exports = router;

@@ -1,5 +1,6 @@
 const fs = require('fs');
 const util = require('util');
+const log = require('./log');
 const readFile = util.promisify(fs.readFile);
 
 const mockReportJson = require('./mock-report.json');
@@ -26,8 +27,8 @@ const buildReportObjectFromUserDate = (userData, firstName) => {
 	} = userData;
 
 	return {
-		username: username,
-		firstName, firstName,
+		username,
+		firstName,
 		audienceQualityScore: { value: aqs, title: aqs_name },
 		likesSpread: likes_spread,
 		likesToCommentRatio: likes_comments_ratio,
@@ -43,10 +44,10 @@ const buildReportObjectFromUserDate = (userData, firstName) => {
 
 const titleEnglishToHebrew = (title) => {
 	switch (title.toLowerCase()) {
-		case 'very good': return 'טוב מאוד';
-		case 'good': return 'טוב';
-		case 'poor': return 'עלוב';
-		default: return 'לא ידוע';
+	case 'very good': return 'טוב מאוד';
+	case 'good': return 'טוב';
+	case 'poor': return 'עלוב';
+	default: return 'לא ידוע';
 	}
 };
 
@@ -81,17 +82,18 @@ const formatEmailHtml = (emailHtml, reportObject) => {
 		.replace('%FEMALE_PERCENTAGE%', reportObject.demography.find((x) => x.gender === 'female').value);
 };
 
-titleToColorClass = (title) => {
+const titleToColorClass = (title) => {
 	const titleLower = title.toLowerCase();
 	const colorStart = 'title-color-';
 
 	if (titleLower === 'very good') {
-		return colorStart + 'very-good'
+		return colorStart + 'very-good';
 	}
 
 	return colorStart + titleLower;
-}
+};
 
+// eslint-disable-next-line no-unused-vars
 const realReport = (account) => {
 	return axios.post(hypeAuditorUrl, `username=${account}&v=2`, {
 		headers: {
@@ -102,8 +104,8 @@ const realReport = (account) => {
 	});
 };
 
-const fakeReport = () => new Promise(function (resolve, reject) {
-	setTimeout(function () {
+const fakeReport = () => new Promise(resolve => {
+	setTimeout(() => {
 		resolve({ data: mockReportJson });
 	}, 500);
 });
@@ -123,10 +125,8 @@ const getReport = async (account) => {
 		return formattedHtml;
 
 	} catch (err) {
-		console.error(err.message);
+		log('failed getting report', err);
 	}
 };
 
 module.exports = getReport;
-
-getReport();
