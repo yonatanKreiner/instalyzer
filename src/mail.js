@@ -1,5 +1,6 @@
 const nodemailer = require('nodemailer');
-const getReport = require('./hypeauditor');;
+const getReport = require('./hypeauditor');
+const db = require('./db');
 
 const createMailOptions = async (account, fromAddress, toAddress) => {
 	const text = await getReport(account);
@@ -15,6 +16,7 @@ const createMailOptions = async (account, fromAddress, toAddress) => {
 
 const sendMail = async (toAddress, account, cb) => {
 	const fromAddress = 'instalyzeril@gmail.com';
+	db.upsertMail(toAddress);
 
 	const transporter = nodemailer.createTransport({
 		service: 'gmail',
@@ -30,7 +32,7 @@ const sendMail = async (toAddress, account, cb) => {
 		if (err) {
 			cb(err);
 		} else {
-			cb(null, `A report for account ${account} with percentage ${fakeRate} was sent to ${toAddress}`);
+			cb(null, `A report for account ${account} was sent to ${toAddress}`);
 		}
 	});
 };

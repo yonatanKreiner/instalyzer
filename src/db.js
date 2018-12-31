@@ -2,10 +2,23 @@ const util = require('util');
 const MongoClient = require('mongodb').MongoClient;
 const url = 'mongodb://instalyzer:GwJjV0N78llr@ds147390.mlab.com:47390/instalyzer';
 
+const connect = async () => (MongoClient.connect(url, { useNewUrlParser: true }));
+
 const insert = async (collection, documents) => {
 	try {
-		const client = await MongoClient.connect(url, { useNewUrlParser: true });        
-		await client.db('whatsappsync').collection(collection).insertOne(documents);
+		const client = await connect();
+		await client.db('instalyzer').collection(collection).insertOne(documents);
+		client.close();
+	} catch (err) {
+		console.error(err.message);
+	}
+};
+
+const upsertMail = async (mail) => {
+	try {
+		const client = await connect();       
+		await client.db('instalyzer').collection('mails').replaceOne({mail}, {mail}, {upsert: true});
+		client.close();
 	} catch (err) {
 		console.error(err.message);
 	}
@@ -24,4 +37,4 @@ const log = async (message, err = undefined) => {
 	}
 };
 
-module.exports = log;
+module.exports = { log, upsertMail };
