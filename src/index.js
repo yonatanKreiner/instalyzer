@@ -1,7 +1,8 @@
 const express = require('express');
 const instagram = require('./instagram');
 const sendMail = require('./mail');
-const log = require('./log');
+const db = require('./db');
+const paypal = require('./paypal');
 
 const router = express.Router();
 
@@ -31,15 +32,19 @@ router.get('/popular', async (req, res, next) => {
 
 router.post('/report', async(req, res, next) => {
 	try {
-		sendMail(req.body.mail, req.body.account, (err, data) => {
-			if (err) {
-				log('failed sending mail', err);
-			} else {
-				log(data);
-			}
-		});
-	
-		res.send('OK');
+		if (paypal.validatePayment(req.body.paymentId)) {
+			sendMail(req.body.mail, req.body.account, (err, data) => {
+				if (err) {
+					db.log('failed sending mail', err);
+				} else {
+					db.log(data);
+				}
+			});
+
+			res.send('OK');
+		} else {
+			res.status(400).send('payment could not be validated');
+		}
 	} catch (err) {
 		next(err);
 	}
@@ -47,7 +52,7 @@ router.post('/report', async(req, res, next) => {
 
 // eslint-disable-next-line no-unused-vars
 router.use((err, req, res, next) => {
-	log('an error has occured', err);
+	db.log('an error has occured', err);
 	res.status(500).send('internal server error');
 });
 
