@@ -14,6 +14,16 @@ const insert = async (collection, documents) => {
 	}
 };
 
+const findById = async (collection, id) => {
+	try {
+		const client = await connect();
+		const res = await client.db('instalyzer').collection(collection).findOne({id: id});
+		return res;
+	} catch (err) {
+		console.error(err.message);
+	}
+};
+
 const upsertMail = async (mail) => {
 	try {
 		const client = await connect();       
@@ -37,4 +47,4 @@ const log = async (message, err = undefined) => {
 	}
 };
 
-module.exports = { log, upsertMail };
+module.exports = { log, upsertMail, insert, findById };
