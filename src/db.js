@@ -17,7 +17,7 @@ const insert = async (collection, documents) => {
 const findById = async (collection, id) => {
 	try {
 		const client = await connect();
-		const res = await client.db('instalyzer').collection(collection).findOne({id: id});
+		const res = await client.db('instalyzer').collection(collection).findOne({ id: id });
 		return res;
 	} catch (err) {
 		console.error(err.message);
@@ -26,22 +26,28 @@ const findById = async (collection, id) => {
 
 const upsertMail = async (mail) => {
 	try {
-		const client = await connect();       
-		await client.db('instalyzer').collection('mails').replaceOne({mail}, {mail}, {upsert: true});
+		const client = await connect();
+		await client.db('instalyzer').collection('mails').replaceOne({ mail }, { mail }, { upsert: true });
 		client.close();
 	} catch (err) {
 		console.error(err.message);
 	}
 };
 
-const log = async (message, err = undefined) => {
+const log = async (message, info = undefined) => {
 	const entry = {
 		message,
 		timestamp: new Date()
 	};
 
-	if (err) {
-		await insert('logs', Object.assign({}, entry, {error: util.inspect(err)}));
+	let infoText = { ...info };
+	if(info.errorMessage) {
+		info.errorMessage = util.inspect(info.errorMessage)
+	}
+
+
+	if (info) {
+		await insert('logs', { ...entry, info: infoText });
 	} else {
 		await insert('logs', entry);
 	}

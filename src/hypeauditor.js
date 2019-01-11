@@ -8,8 +8,8 @@ const mockReportJson = require('./mock-report.json');
 const axios = require('axios');
 
 const hypeAuditorUrl = 'https://hypeauditor.com/api/method/auditor.report';
-const hypeAuditorId = '293591'; // mbinyaminov@gmail.com
-const hypeAuditorToken = '$2y$04$aq3T7eKX5ZU59w61VCBpAe1czYN8Idhk4crTKGIyO7j/rpseYKcrG';
+const hypeAuditorId = '254005'; // mbinyaminov@gmail.com
+const hypeAuditorToken = '$2y$04$lNSSjKwkeoyBizp66xYFz.RDK0ccXse7BGV/oqTTyyCO0Ib9jMrj6';
 
 const buildReportObjectFromUserDate = (userData, firstName) => {
 	const {
@@ -37,17 +37,19 @@ const buildReportObjectFromUserDate = (userData, firstName) => {
 		audienceType: { real: audience_type.real, suspicious: audience_type.susp, moreThen5000Followings: audience_type.infs, moreThen1500Followers: audience_type.mass },
 		engagementRate: er,
 		demography: demography_by_age,
-		adEngagementRate: { value: advertising_data.avg_ad_er, avg: advertising_data.avg_er, title: advertising_data.avg_er_display[0] },
-		adPostsPercentage: advertising_data.ad_posts.prc
+		adEngagementRate: advertising_data && { value: advertising_data.avg_ad_er, avg: advertising_data.avg_er, title: advertising_data.avg_er_display[0] },
+		adPostsPercentage: advertising_data && advertising_data.ad_posts.prc
 	};
 };
 
 const titleEnglishToHebrew = (title) => {
 	switch (title.toLowerCase()) {
-	case 'very good': return 'טוב מאוד';
-	case 'good': return 'טוב';
-	case 'poor': return 'עלוב';
-	default: return 'לא ידוע';
+		case 'could be improved': return 'טעון שיפור';
+		case 'excellent': return 'מצויין';
+		case 'very good': return 'טוב מאוד';
+		case 'good': return 'טוב';
+		case 'poor': return 'עלוב';
+		default: return 'לא ידוע';
 	}
 };
 
@@ -73,10 +75,10 @@ const formatEmailHtml = (emailHtml, reportObject) => {
 		.replace('%ACTIVE_FOLLOWERS_COLOR%', titleToColorClass(reportObject.engagementRate.title))
 		.replace('%ACTIVE_FOLLOWERS_VALUE%', reportObject.engagementRate.value)
 		.replace('%ACTIVE_FOLLOWERS_AVG%', reportObject.engagementRate.avg)
-		.replace('%ACTIVE_FOLLOWERS_AD_TITLE%', titleEnglishToHebrew(reportObject.adEngagementRate.title))
-		.replace('%ACTIVE_FOLLOWERS_AD_COLOR%', titleToColorClass(reportObject.adEngagementRate.title))
-		.replace('%ACTIVE_FOLLOWERS_AD_VALUE%', reportObject.adEngagementRate.value)
-		.replace('%ACTIVE_FOLLOWERS_AD_AVG%', reportObject.adEngagementRate.avg)
+		.replace('%ACTIVE_FOLLOWERS_AD_TITLE%', titleEnglishToHebrew(reportObject.adEngagementRate && reportObject.adEngagementRate.title))
+		.replace('%ACTIVE_FOLLOWERS_AD_COLOR%', titleToColorClass(reportObject.adEngagementRate && reportObject.adEngagementRate.title))
+		.replace('%ACTIVE_FOLLOWERS_AD_VALUE%', reportObject.adEngagementRate && reportObject.adEngagementRate.value)
+		.replace('%ACTIVE_FOLLOWERS_AD_AVG%', reportObject.adEngagementRate && reportObject.adEngagementRate.avg)
 		.replace('%AD_POSTS_PERCENTAGE%', reportObject.adPostsPercentage)
 		.replace('%MALE_PERCENTAGE%', reportObject.demography.find((x) => x.gender === 'male').value)
 		.replace('%FEMALE_PERCENTAGE%', reportObject.demography.find((x) => x.gender === 'female').value);
@@ -111,10 +113,11 @@ const fakeReport = () => new Promise(resolve => {
 });
 
 const getReport = async (account) => {
-	const firstName = 'יונתן';
+	const firstName = 'משתמש/ת יקר/ה';
 
 	try {
-		const report = await fakeReport(account);
+		// const report = await realReport(account);
+		const report = await fakeReport();
 		const reportData = report.data;
 		const userData = reportData.result.user;
 		const reportObject = buildReportObjectFromUserDate(userData, firstName);
