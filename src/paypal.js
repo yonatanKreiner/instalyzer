@@ -61,14 +61,14 @@ const getPaymentInfo = async (id, token) => {
 			status: res.data.payer.status,
 			email: res.data.payer.payer_info.email
 		},
-		ammount: {
+		amount: {
 			total: res.data.transactions[0].amount.total,
 			currency: res.data.transactions[0].amount.currency
 		},
 		timestamp: res.data.create_time
 	};
 
-	if (paymentInfo.state === 'approved' && paymentInfo.ammount.total === 20 && paymentInfo.ammount.currency === 'ILS') {
+	if (paymentInfo.state === 'approved' && paymentInfo.amount.total === 20 && paymentInfo.amount.currency === 'ILS') {
 		const oldPayment = await db.findById('payments', paymentInfo.id);
 
 		if (oldPayment) {
