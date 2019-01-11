@@ -11,15 +11,17 @@ const isStringNullOrEmpty = validators.isStringNullOrEmpty;
 
 const router = express.Router();
 
+const buildRequestJson = (req) => JSON.stringify(
+	{
+		method: req.method,
+		path: req.path,
+		headers: req.headers,
+		body: req.body,
+		ip: req.ip
+	});
+
 const logRequestMessage = (message, req, res) => {
-	const requestJson = JSON.stringify(
-		{
-			method: req.method,
-			path: req.path,
-			headers: req.headers,
-			body: req.body,
-			ip: req.ip
-		});
+	const requestJson = buildRequestJson(req);
 	db.log(message, requestJson);
 	res.status(400).send(message);
 }
@@ -101,7 +103,7 @@ router.post('/contact', async (req, res, next) => {
 
 // eslint-disable-next-line no-unused-vars
 router.use((err, req, res, next) => {
-	db.log(err, JSON.stringify({ request: req }));
+	db.log(err, buildRequestJson(req));
 	res.status(500).send('internal server error');
 });
 
