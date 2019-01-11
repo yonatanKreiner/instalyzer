@@ -72,14 +72,14 @@ const getPaymentInfo = async (id, token) => {
 		const oldPayment = await db.findById('payments', paymentInfo.id);
 
 		if (oldPayment) {
-			logger.info(`user ${paymentInfo.user.email} tried to purchase with old payment id ${paymentInfo.id}`);
+			logger.info(`user ${paymentInfo.user.email} tried to purchase with old payment id ${paymentInfo.id}`, paymentInfo);
 			return false;
 		}
 
 		db.insert('payments', paymentInfo);
 		return true;
 	} else {
-		logger.info(`a payment with id: ${paymentInfo.id} has beed denied`);
+		logger.info(`a payment with id: ${paymentInfo.id} has beed denied`, paymentInfo);
 		return false;
 	}
 };

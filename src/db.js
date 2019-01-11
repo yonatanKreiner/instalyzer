@@ -1,6 +1,8 @@
 const util = require('util');
 const MongoClient = require('mongodb').MongoClient;
-const url = 'mongodb://instalyzer:GwJjV0N78llr@ds147390.mlab.com:47390/instalyzer';
+const url = process.env.MONGO_CONNECTION_URL;
+
+const isProd = !!process.env.production;
 
 const connect = async () => (MongoClient.connect(url, { useNewUrlParser: true }));
 
@@ -41,17 +43,19 @@ const log = async (message, info, type = 'UNKNOWN') => {
 		type: type,
 	};
 
-	let infoText = { ...info };
-	if (info.errorMessage) {
+	if (info && info.errorMessage) {
 		info.errorMessage = util.inspect(info.errorMessage)
 	}
 
-
 	if (info) {
-		await insert('logs', { ...entry, info: infoText });
+		await insert('logs', { ...entry, info });
 	} else {
 		await insert('logs', entry);
 	}
 };
 
-module.exports = { log, upsertMail, insert, findById };
+const nop = () => { };
+
+module.exports = isProd
+	? { log, upsertMail, insert, findById }
+	: { log: nop, upsertMail: nop, insert: nop, findById: nop };

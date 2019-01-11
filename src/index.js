@@ -63,7 +63,7 @@ router.post('/report', async (req, res, next) => {
 					logErrorRequestMessage('email address not valid', req, res);
 				} else {
 					await sendReportByMail(mail, account)
-					send('OK');
+					res.send('OK');
 				}
 			}
 		} else {
@@ -72,12 +72,6 @@ router.post('/report', async (req, res, next) => {
 	} catch (err) {
 
 		next(err);
-	}
-});
-
-router.get('/testmeir', async(req,res,next) => {
-	if(process && process.env) {
-		res.send(JSON.stringify(process.env));
 	}
 });
 

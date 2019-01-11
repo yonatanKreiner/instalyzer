@@ -2,8 +2,8 @@ const nodemailer = require('nodemailer');
 const logger = require('./logger');
 
 // TODO: Need to encrypt these / env vars
-const SENDER_MAIL_ADDRESS = 'instalyzeril@gmail.com';
-const SENDER_MAIL_PASSWORD = 'Aa123456!';
+const SENDER_MAIL_ADDRESS = process.env.SENDER_MAIL_ADDRESS;
+const SENDER_MAIL_PASSWORD = process.env.SENDER_MAIL_PASSWORD;
 const EMAIL_SERVICE = 'gmail';
 
 const sendEmail = async (toAddress, subject, message, isHtml) => {
