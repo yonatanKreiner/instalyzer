@@ -11,7 +11,7 @@ const sendEmail = async (toAddress, subject, message, isHtml) => {
 		service: EMAIL_SERVICE,
 		auth: {
 			user: SENDER_MAIL_ADDRESS,
-			pass: SENDER_MAIL_PASSWORD + '1',
+			pass: SENDER_MAIL_PASSWORD,
 		}
 	});
 
@@ -32,8 +32,6 @@ const sendEmail = async (toAddress, subject, message, isHtml) => {
 				...mailOptions,
 				errorMessage: JSON.stringify(err),
 			});
-
-			throw err;
 		} else {
 			logger.info('successfuly sent email', mailOptions);
 		}

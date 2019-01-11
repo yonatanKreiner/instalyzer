@@ -42,7 +42,7 @@ const log = async (message, info, type = 'UNKNOWN') => {
 	};
 
 	if (info && info.errorMessage) {
-		info.errorMessage = util.inspect(info.errorMessage)
+		info.errorMessage = util.inspect(info.errorMessage);
 	}
 
 	if (info) {
