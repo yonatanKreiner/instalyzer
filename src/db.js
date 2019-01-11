@@ -2,8 +2,6 @@ const util = require('util');
 const MongoClient = require('mongodb').MongoClient;
 const url = process.env.MONGO_CONNECTION_URL;
 
-const isProd = !!process.env.NODE_ENV === 'production';
-
 const connect = async () => (MongoClient.connect(url, { useNewUrlParser: true }));
 
 const insert = async (collection, documents) => {
@@ -54,6 +52,9 @@ const log = async (message, info, type = 'UNKNOWN') => {
 	}
 };
 
+const isProd = !!process.env.NODE_ENV === 'production';
+console.log('process.env.NODE_ENV', process.env.NODE_ENV);
+console.log('isProd', isProd);
 const nop = () => { };
 
 module.exports = isProd
