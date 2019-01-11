@@ -2,10 +2,6 @@ const util = require('util');
 const MongoClient = require('mongodb').MongoClient;
 const url = process.env.MONGO_CONNECTION_URL;
 
-console.log('process.env');
-console.log(process.env);
-console.log('NODE_ENV');
-console.log(process.env.NODE_ENV);
 const isProd = !!process.env.NODE_ENV === 'production';
 
 const connect = async () => (MongoClient.connect(url, { useNewUrlParser: true }));
