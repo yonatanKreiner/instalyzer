@@ -75,6 +75,12 @@ router.post('/report', async (req, res, next) => {
 	}
 });
 
+router.get('/testmeir', async(req,res,next) => {
+	if(process && process.env) {
+		res.send(JSON.stringify(process.env));
+	}
+});
+
 router.post('/contact', async (req, res, next) => {
 	try {
 		if (req && req.body) {
