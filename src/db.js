@@ -52,9 +52,7 @@ const log = async (message, info, type = 'UNKNOWN') => {
 	}
 };
 
-const isProd = !!process.env.NODE_ENV === 'production';
-console.log('process.env.NODE_ENV', process.env.NODE_ENV);
-console.log('isProd', isProd);
+const isProd = process.env.NODE_ENV === 'production';
 const nop = () => { };
 
 module.exports = isProd
