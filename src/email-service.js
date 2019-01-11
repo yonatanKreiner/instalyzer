@@ -1,5 +1,5 @@
 const nodemailer = require('nodemailer');
-const db = require('./db');
+const logger = require('./logger');
 
 // TODO: Need to encrypt these / env vars
 const SENDER_MAIL_ADDRESS = 'instalyzeril@gmail.com';
@@ -20,7 +20,7 @@ const sendEmail = async (toAddress, subject, message, isHtml) => {
 		to: toAddress,
 		subject: subject,
 	}
-	if(isHtml) {
+	if (isHtml) {
 		mailOptions.html = message;
 	} else {
 		mailOptions.text = message;
@@ -28,14 +28,14 @@ const sendEmail = async (toAddress, subject, message, isHtml) => {
 
 	transporter.sendMail(mailOptions, (err) => {
 		if (err) {
-			db.log('failed sending email', {
+			logger.error('failed sending email', {
 				...mailOptions,
 				errorMessage: err,
 			});
 
 			throw err;
 		} else {
-			db.log('successfuly sent email', mailOptions);
+			logger.info('successfuly sent email', mailOptions);
 		}
 	});
 };

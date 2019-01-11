@@ -1,6 +1,6 @@
 const fs = require('fs');
 const util = require('util');
-const db = require('./db');
+const logger = require('./logger');
 const readFile = util.promisify(fs.readFile);
 
 const mockReportJson = require('./mock-report.json');
@@ -128,7 +128,7 @@ const getReport = async (account) => {
 		return formattedHtml;
 
 	} catch (err) {
-		db.log('failed getting report', err);
+		logger.error('failed getting report', err);
 	}
 };
 

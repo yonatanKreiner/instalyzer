@@ -34,14 +34,15 @@ const upsertMail = async (mail) => {
 	}
 };
 
-const log = async (message, info = undefined) => {
+const log = async (message, info, type = 'UNKNOWN') => {
 	const entry = {
 		message,
-		timestamp: new Date()
+		timestamp: new Date(),
+		type: type,
 	};
 
 	let infoText = { ...info };
-	if(info.errorMessage) {
+	if (info.errorMessage) {
 		info.errorMessage = util.inspect(info.errorMessage)
 	}
 

@@ -2,7 +2,7 @@ const express = require('express');
 const instagram = require('./instagram');
 const sendReportByMail = require('./report');
 const sendContactMessageByMail = require('./contact');
-const db = require('./db');
+const logger = require('./logger');
 const paypal = require('./paypal');
 
 const validators = require('./validators');
@@ -11,18 +11,17 @@ const isStringNullOrEmpty = validators.isStringNullOrEmpty;
 
 const router = express.Router();
 
-const buildRequestJson = (req) => JSON.stringify(
-	{
-		method: req.method,
-		path: req.path,
-		headers: req.headers,
-		body: req.body,
-		ip: req.ip
-	});
+const buildRequestJson = (req) => JSON.stringify({
+	method: req.method,
+	path: req.path,
+	headers: req.headers,
+	body: req.body,
+	ip: req.ip
+});
 
-const logRequestMessage = (message, req, res) => {
+const logErrorRequestMessage = (message, req, res) => {
 	const requestJson = buildRequestJson(req);
-	db.log(message, requestJson);
+	logger.error(message, requestJson);
 	res.status(400).send(message);
 }
 
@@ -57,11 +56,11 @@ router.post('/report', async (req, res, next) => {
 				const { mail, account } = req.body;
 
 				if (isStringNullOrEmpty(account)) {
-					logRequestMessage('no account', req, res);
+					logErrorRequestMessage('no account', req, res);
 				} else if (isStringNullOrEmpty(mail)) {
-					logRequestMessage('no message', req, res);
+					logErrorRequestMessage('no message', req, res);
 				} else if (!isEmailAddressValid(mail)) {
-					logRequestMessage('email address not valid', req, res);
+					logErrorRequestMessage('email address not valid', req, res);
 				} else {
 					await sendReportByMail(mail, account)
 					send('OK');
@@ -82,19 +81,19 @@ router.post('/contact', async (req, res, next) => {
 			const { email, message, fullname } = req.body;
 
 			if (isStringNullOrEmpty(fullname)) {
-				logRequestMessage('no fullname', req, res);
+				logErrorRequestMessage('no fullname', req, res);
 			} else if (isStringNullOrEmpty(message)) {
-				logRequestMessage('no message', req, res);
+				logErrorRequestMessage('no message', req, res);
 			} else if (isStringNullOrEmpty(email)) {
-				logRequestMessage('no message', req, res);
+				logErrorRequestMessage('no message', req, res);
 			} else if (!isEmailAddressValid(email)) {
-				logRequestMessage('email address not valid', req, res);
+				logErrorRequestMessage('email address not valid', req, res);
 			} else {
 				await sendContactMessageByMail(email, fullname, message)
 				res.send('OK');
 			}
 		} else {
-			logRequestMessage('request not valid', req, res);
+			logErrorRequestMessage('request not valid', req, res);
 		}
 	} catch (err) {
 		next(err);
@@ -103,7 +102,7 @@ router.post('/contact', async (req, res, next) => {
 
 // eslint-disable-next-line no-unused-vars
 router.use((err, req, res, next) => {
-	db.log(err, buildRequestJson(req));
+	logger.error(err, buildRequestJson(req));
 	res.status(500).send('internal server error');
 });
 

@@ -1,6 +1,7 @@
 const axios = require('axios');
 const qs = require('qs');
 const db = require('./db');
+const logger = require('./logger');
 
 const sandbox = {
 	url: 'https://api.sandbox.paypal.com/v1/',
@@ -16,22 +17,22 @@ const live = {
 
 const authorizeRequest = async () => {
 	try {
-		const body = {grant_type: 'client_credentials'};
-		
+		const body = { grant_type: 'client_credentials' };
+
 		const res = await axios.post(sandbox.url + 'oauth2/token',
 			qs.stringify(body), {
 				headers: {
 					'Accept': 'application/json',
-					'Accept-Language': 'en_US' 
+					'Accept-Language': 'en_US'
 				},
 				auth: {
 					username: sandbox.clientId,
 					password: sandbox.secret
 				}
 			});
-		return  res.data.access_token;
+		return res.data.access_token;
 	} catch (err) {
-		db.log('could not authorize paypal api', err);
+		logger.error('could not authorize paypal api', err);
 	}
 };
 
@@ -44,14 +45,14 @@ const validatePayment = async id => {
 		try {
 			return getPaymentInfo(id, token);
 		} catch (err) {
-			db.log('could not validate payment', err);
+			logger.error('could not validate payment', err);
 			return false;
 		}
-	}	
+	}
 };
 
 const getPaymentInfo = async (id, token) => {
-	const res = await axios.get(`${sandbox.url}payments/payment/${id}`, { headers: { 'Authorization': `Bearer ${token}` }});
+	const res = await axios.get(`${sandbox.url}payments/payment/${id}`, { headers: { 'Authorization': `Bearer ${token}` } });
 
 	const paymentInfo = {
 		id: res.data.id,
@@ -71,14 +72,14 @@ const getPaymentInfo = async (id, token) => {
 		const oldPayment = await db.findById('payments', paymentInfo.id);
 
 		if (oldPayment) {
-			db.log(`user ${paymentInfo.user.email} tried to purchase with old payment id ${paymentInfo.id}`);
+			logger.info(`user ${paymentInfo.user.email} tried to purchase with old payment id ${paymentInfo.id}`);
 			return false;
 		}
 
 		db.insert('payments', paymentInfo);
 		return true;
 	} else {
-		db.log(`a payment with id: ${paymentInfo.id} has beed denied`);
+		logger.info(`a payment with id: ${paymentInfo.id} has beed denied`);
 		return false;
 	}
 };
