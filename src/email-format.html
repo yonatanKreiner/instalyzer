@@ -3,15 +3,23 @@
 <head>
     <style>
         .title-color-poor {
-            background-color: #ff0000;
+            background-color: #F6491E;
+        }
+
+        .title-color-average {
+            background-color: #F6CB1E;
         }
 
         .title-color-good {
-            background-color: #b7ea3f;
+            background-color: #E8F61E;
         }
 
         .title-color-very-good {
-            background-color: #6dde48;
+            background-color: #58F61E;
+        }
+
+        .title-color-excellent {
+            background-color: #2CF61E;
         }
 
         .table-body-row {
@@ -33,10 +41,31 @@
             width: 230px;
             display: inline-flex;
         }
+
+        .measurement-title {
+            font-size: 16px;
+            margin-bottom: 5px;
+            font-weight: bold;
+            display: block;
+            text-decoration: underline;
+        }
+        .mesaurement-level-text {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .mesaurement-value-text {
+            font-size: 14px;
+            color: rgb(119, 119, 119);
+            margin-top: 7px;
+            display: block;
+        }
+        .mesaurement-section {
+            height: 100px;
+        }
     </style>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 </head>
-<table align='center' style="text-align: right; width: 500px; border: 1px solid black">
+<table align='center' style="color: black; text-align: right; width: 500px; border: 1px solid black">
     <tr style="height: 75px; border-bottom: 1px solid rgba(0,0,0,.0975);">
         <th style="border-bottom: 1px solid rgba(0,0,0,.0975)">
             <a target="_blank" rel="noopener noreferrer" style="text-decoration: none" href="http://www.instalyzer.co.il">
@@ -87,66 +116,54 @@
                     </th>
                 </tr>
                 <tr>
-                    <th style="height:100px" class="table-body-row">
+                    <th class="mesaurement-section" class="table-body-row">
                         <span style="font-size: 16px; margin-bottom: 5px; font-weight: bold; display: block">יחס לייקים
                             לתגובות</span>
                         <span>
                             <span class='%LIKE_TO_COMMENT_RATIO_COLOR%' style="display: inline-block; width: 12px; height: 12px; border-radius: 10px;"></span>
-                            <span style="font-size: 16px; font-weight: bold;">%LIKE_TO_COMMENT_RATIO_TITLE%</span>
+                            <span class="mesaurement-level-text">%LIKE_TO_COMMENT_RATIO_TITLE%</span>
                         </span>
-                        <span style="font-size: 14px; color: rgb(119, 119, 119); margin-top: 7px; display: block">%LIKE_TO_COMMENT_RATIO_VALUE%
+                        <span class="mesaurement-value-text">%LIKE_TO_COMMENT_RATIO_VALUE%
                             לייקים לכל תגובה, הממוצע הוא %LIKE_TO_COMMENT_RATIO_AVG%</span>
                     </th>
                 </tr>
                 <tr>
-                    <th style="height:100px" class="table-body-row">
-                        <span style="font-size: 16px; margin-bottom: 5px; font-weight: bold; display: block">אמינות
+                    <th class="mesaurement-section" class="table-body-row">
+                        <span class="measurement-title">אמינות
                             עוקבים</span>
                         <span>
                             <span class='%FOLLOWERS_AUTHENTICITY_COLOR%' style="display: inline-block; width: 12px; height: 12px; border-radius: 10px;"></span>
-                            <span style="font-size: 16px; font-weight: bold;">%FOLLOWERS_AUTHENTICITY_TITLE%</span>
+                            <span class="mesaurement-level-text">%FOLLOWERS_AUTHENTICITY_TITLE%</span>
                         </span>
-                        <span style="font-size: 14px; color: rgb(119, 119, 119); margin-top: 7px; display: block">%FOLLOWERS_AUTHENTICITY_VALUE%%
+                        <span class="mesaurement-value-text">%FOLLOWERS_AUTHENTICITY_VALUE%%
                             עוקבים אמינים, הממוצע הוא %FOLLOWERS_AUTHENTICITY_AVG%%</span>
                     </th>
                 </tr>
                 <tr>
-                    <th style="height:100px" class="table-body-row">
-                        <span style="font-size: 16px; margin-bottom: 5px; font-weight: bold; display: block">אחוז
+                    <th class="mesaurement-section" class="table-body-row">
+                        <span class="measurement-title">אחוז
                             עוקבים פעילים (מבצעים לייק או תגובה)</span>
                         <span>
                             <span class='%ACTIVE_FOLLOWERS_COLOR%' style="display: inline-block; width: 12px; height: 12px; border-radius: 10px;"></span>
-                            <span style="font-size: 16px; font-weight: bold;">%ACTIVE_FOLLOWERS_TITLE%</span>
+                            <span class="mesaurement-level-text">%ACTIVE_FOLLOWERS_TITLE%</span>
                         </span>
-                        <span style="font-size: 14px; color: rgb(119, 119, 119); margin-top: 7px; display: block">%ACTIVE_FOLLOWERS_VALUE%%
+                        <span class="mesaurement-value-text">%ACTIVE_FOLLOWERS_VALUE%%
                             מבצעים פעולות אקטיביות, הממוצע הוא %ACTIVE_FOLLOWERS_AVG%%</span>
                     </th>
                 </tr>
                 <tr>
-                    <th style="height:100px" class="table-body-row">
-                        <span style="font-size: 16px; margin-bottom: 5px; font-weight: bold; display: block">אחוז
-                            עוקבים פעילים על תוכן פרסומי</span>
-                        <span>
-                            <span class='%ACTIVE_FOLLOWERS_AD_COLOR%' style="display: inline-block; width: 12px; height: 12px; border-radius: 10px;"></span>
-                            <span style="font-size: 16px; font-weight: bold;">%ACTIVE_FOLLOWERS_AD_TITLE%</span>
-                        </span>
-                        <span style="font-size: 14px; color: rgb(119, 119, 119); margin-top: 7px; display: block">%ACTIVE_FOLLOWERS_AD_VALUE%%
-                            מבצעים פעולות אקטיביות על תוכן פרסומי, הממוצע הוא %ACTIVE_FOLLOWERS_AD_AVG%%</span>
-                    </th>
+                    %ACTIVE_FOLLOWERS_AD_SECTION%
                 </tr>
                 <tr>
-                    <th style="height:100px" class="table-body-row">
-                        <span style="margin-top: 15px; font-size: 16px; margin-bottom: 5px; font-weight: bold; display: block">מידע
+                    <th class="mesaurement-section" class="table-body-row">
+                        <span class="measurement-title" style="margin-top: 15px;">מידע
                             נוסף</span>
-                        <span style="font-size: 14px; color: rgb(119, 119, 119); margin-top: 7px; display: block">
-                            <span style="margin-left: 5px">אחוז פוסטים פרסומיים:</span>
-                            <span>%AD_POSTS_PERCENTAGE%%</span>
-                        </span>
-                        <span style="font-size: 14px; color: rgb(119, 119, 119); margin-top: 7px; display: block">
+                        %AD_POSTS_PERCENTAGE_SECTION%
+                        <span class="mesaurement-value-text">
                             <span style="margin-left: 5px">אחוז גברים עוקבים:</span>
                             <span>%MALE_PERCENTAGE%%</span>
                         </span>
-                        <span style="margin-bottom: 30px; font-size: 14px; color: rgb(119, 119, 119); margin-top: 7px; display: block">
+                        <span class="mesaurement-value-text" style="margin-bottom: 30px;">
                             <span style="margin-left: 5px">אחוז נשים עוקבות:</span>
                             <span>%FEMALE_PERCENTAGE%%</span>
                         </span>
