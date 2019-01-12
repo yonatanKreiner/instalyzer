@@ -3,31 +3,26 @@ const qs = require('qs');
 const db = require('./db');
 const logger = require('./logger');
 
-const sandbox = {
-	url: 'https://api.sandbox.paypal.com/v1/',
-	clientId: 'AaJNf3KNzwZbv_0Wd51AYdq_7t-QpvBw4kP4xp2c6Xbehr5xj0kApOlAKa7SdNWJqBhOCa4waFp5Ijb-',
-	secret: 'EJyCOnUuZl2a41mULWemQdiEtNLM96Ay1xtb2TsZOEzUPazja6oxnLxVyo4WEYekvX2vXxkdF4wypMuG'
-};
-
-const live = {
-	url: 'https://api.sandbox.paypal.com/v1/',
-	clientId: 'AeXtb1bhbpeUG1Kwq_fEJC3A8wMZcAWCPjqj8ofYQqzSeeche1wwECi7XCRtd5U7Th43ArIPEfnOFvlF',
-	secret: 'EIvd5WAgUwQ8uyry8Cn01J4rBQ6_az4JwlTOn1EKcu2HJ3MGkNWSDxvjiQKDvYpBskAwBy5m6X-2ylMn'
-};
+const getPayPalConfig = () => ({
+	url: process.env.PAYPAL_URL,
+	clientId: process.env.PAYPAL_CLIENT,
+	secret: process.env.PAYPAL_SECRET
+});
 
 const authorizeRequest = async () => {
 	try {
+		const paypal = getPayPalConfig();
 		const body = { grant_type: 'client_credentials' };
 
-		const res = await axios.post(sandbox.url + 'oauth2/token',
+		const res = await axios.post(paypal.url + 'oauth2/token',
 			qs.stringify(body), {
 				headers: {
 					'Accept': 'application/json',
 					'Accept-Language': 'en_US'
 				},
 				auth: {
-					username: sandbox.clientId,
-					password: sandbox.secret
+					username: paypal.clientId,
+					password: paypal.secret
 				}
 			});
 		return res.data.access_token;
@@ -52,7 +47,8 @@ const validatePayment = async id => {
 };
 
 const getPaymentInfo = async (id, token) => {
-	const res = await axios.get(`${sandbox.url}payments/payment/${id}`, { headers: { 'Authorization': `Bearer ${token}` } });
+	const paypal = getPayPalConfig();
+	const res = await axios.get(`${paypal.url}payments/payment/${id}`, { headers: { 'Authorization': `Bearer ${token}` } });
 
 	const paymentInfo = {
 		id: res.data.id,

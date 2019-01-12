@@ -44,12 +44,12 @@ const buildReportObjectFromUserDate = (userData, firstName) => {
 
 const titleEnglishToHebrew = (title) => {
 	switch (title.toLowerCase()) {
-		case 'could be improved': return 'טעון שיפור';
-		case 'excellent': return 'מצויין';
-		case 'very good': return 'טוב מאוד';
-		case 'good': return 'טוב';
-		case 'poor': return 'עלוב';
-		default: return 'לא ידוע';
+	case 'could be improved': return 'טעון שיפור';
+	case 'excellent': return 'מצויין';
+	case 'very good': return 'טוב מאוד';
+	case 'good': return 'טוב';
+	case 'poor': return 'עלוב';
+	default: return 'לא ידוע';
 	}
 };
 
@@ -118,12 +118,19 @@ const fakeReport = () => new Promise(resolve => {
 	}, 500);
 });
 
+const environmentGetReport = () => {
+	if (process.env.NODE_ENV === 'production') {
+		return realReport;
+	}
+	
+	return fakeReport;
+};
+
 const getReport = async (account) => {
 	const firstName = 'משתמש/ת יקר/ה';
 
 	try {
-		// const report = await realReport(account);
-		const report = await fakeReport();
+		const report = await environmentGetReport()(account);
 		const reportData = report.data;
 		const userData = reportData.result.user;
 		const reportObject = buildReportObjectFromUserDate(userData, firstName);

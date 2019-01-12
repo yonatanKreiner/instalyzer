@@ -9,6 +9,8 @@ const validators = require('./validators');
 const isEmailAddressValid = validators.isEmailAddressValid;
 const isStringNullOrEmpty = validators.isStringNullOrEmpty;
 
+require('dotenv').config();
+
 const router = express.Router();
 
 const buildRequestJson = (req) => JSON.stringify({
@@ -23,7 +25,7 @@ const logErrorRequestMessage = (message, req, res) => {
 	const requestJson = buildRequestJson(req);
 	logger.error(message, requestJson);
 	res.status(400).send(message);
-}
+};
 
 router.get('/account/:id/data', async (req, res, next) => {
 	try {
@@ -62,7 +64,7 @@ router.post('/report', async (req, res, next) => {
 				} else if (!isEmailAddressValid(mail)) {
 					logErrorRequestMessage('email address not valid', req, res);
 				} else {
-					await sendReportByMail(mail, account)
+					await sendReportByMail(mail, account);
 					res.send('OK');
 				}
 			}
@@ -89,7 +91,7 @@ router.post('/contact', async (req, res, next) => {
 			} else if (!isEmailAddressValid(email)) {
 				logErrorRequestMessage('email address not valid', req, res);
 			} else {
-				await sendContactMessageByMail(email, fullname, message)
+				await sendContactMessageByMail(email, fullname, message);
 				res.send('OK');
 			}
 		} else {
