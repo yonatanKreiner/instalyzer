@@ -2,14 +2,19 @@ const fs = require('fs');
 const util = require('util');
 const logger = require('./logger');
 const readFile = util.promisify(fs.readFile);
+const writeFile = util.promisify(fs.writeFile);
 
 const mockReportJson = require('./mock-report.json');
 
 const axios = require('axios');
 
+// const hypeAuditorUrl = 'https://hypeauditor.com/api/method/auditor.report';
+// const hypeAuditorId = '254005'; // mbinyaminov@gmail.com
+// const hypeAuditorToken = '$2y$04$lNSSjKwkeoyBizp66xYFz.RDK0ccXse7BGV/oqTTyyCO0Ib9jMrj6';
+
 const hypeAuditorUrl = 'https://hypeauditor.com/api/method/auditor.report';
-const hypeAuditorId = '254005'; // mbinyaminov@gmail.com
-const hypeAuditorToken = '$2y$04$lNSSjKwkeoyBizp66xYFz.RDK0ccXse7BGV/oqTTyyCO0Ib9jMrj6';
+const hypeAuditorId = '308530';
+const hypeAuditorToken = '$2y$04$c1jaLFCo25rCXk9yqkeThunkA.wwQ16ayiIqXG7E4D5npidzeb.7y';
 
 const buildReportObjectFromUserDate = (userData, firstName) => {
 	const {
@@ -42,6 +47,37 @@ const buildReportObjectFromUserDate = (userData, firstName) => {
 	};
 };
 
+const titleToColorClass = (title) => {
+	const titleLower = title.toLowerCase();
+	const colorStart = 'title-color-';
+
+	if (titleLower === 'very good') {
+		return colorStart + 'very-good';
+	}
+
+	return colorStart + titleLower;
+};
+
+const adEngagementRateData = (adEngagementRate) => adEngagementRate
+	? `<th class="mesaurement-section" class="table-body-row">
+	<span class="measurement-title">אחוז
+		עוקבים פעילים על תוכן פרסומי</span>
+	<span>
+		<span class='${titleToColorClass(adEngagementRate.title)}' style="display: inline-block; width: 12px; height: 12px; border-radius: 10px;"></span>
+		<span class="mesaurement-level-text">${titleEnglishToHebrew(adEngagementRate.title)}</span>
+	</span>
+	<span class="mesaurement-value-text">${adEngagementRate.value}%
+		מבצעים פעולות אקטיביות על תוכן פרסומי, הממוצע הוא ${adEngagementRate.avg}%</span>
+</th>`
+	: '';
+
+const adPostsPercentageData = (adPostsPercentage) => adPostsPercentage
+	? `<span class="mesaurement-value-text">
+	<span style="margin-left: 5px">אחוז פוסטים פרסומיים:</span>
+	<span>${adPostsPercentage}%</span>
+</span>`
+	: '';
+
 const titleEnglishToHebrew = (title) => {
 	switch (title.toLowerCase()) {
 		case 'could be improved': return 'טעון שיפור';
@@ -49,6 +85,7 @@ const titleEnglishToHebrew = (title) => {
 		case 'very good': return 'טוב מאוד';
 		case 'good': return 'טוב';
 		case 'poor': return 'עלוב';
+		case 'average': return 'ממוצע';
 		default: return 'לא ידוע';
 	}
 };
@@ -75,29 +112,15 @@ const formatEmailHtml = (emailHtml, reportObject) => {
 		.replace('%ACTIVE_FOLLOWERS_COLOR%', titleToColorClass(reportObject.engagementRate.title))
 		.replace('%ACTIVE_FOLLOWERS_VALUE%', reportObject.engagementRate.value)
 		.replace('%ACTIVE_FOLLOWERS_AVG%', reportObject.engagementRate.avg)
-		.replace('%ACTIVE_FOLLOWERS_AD_TITLE%', titleEnglishToHebrew(reportObject.adEngagementRate && reportObject.adEngagementRate.title))
-		.replace('%ACTIVE_FOLLOWERS_AD_COLOR%', titleToColorClass(reportObject.adEngagementRate && reportObject.adEngagementRate.title))
-		.replace('%ACTIVE_FOLLOWERS_AD_VALUE%', reportObject.adEngagementRate && reportObject.adEngagementRate.value)
-		.replace('%ACTIVE_FOLLOWERS_AD_AVG%', reportObject.adEngagementRate && reportObject.adEngagementRate.avg)
-		.replace('%AD_POSTS_PERCENTAGE%', reportObject.adPostsPercentage)
+		.replace('%ACTIVE_FOLLOWERS_AD_SECTION%', adEngagementRateData(reportObject.adEngagementRate))
+		.replace('%AD_POSTS_PERCENTAGE_SECTION%', adPostsPercentageData(reportObject.adPostsPercentage))
 		.replace('%MALE_PERCENTAGE%', reportObject.demography.find((x) => x.gender === 'male').value)
 		.replace('%FEMALE_PERCENTAGE%', reportObject.demography.find((x) => x.gender === 'female').value);
 };
 
-const titleToColorClass = (title) => {
-	const titleLower = title.toLowerCase();
-	const colorStart = 'title-color-';
-
-	if (titleLower === 'very good') {
-		return colorStart + 'very-good';
-	}
-
-	return colorStart + titleLower;
-};
-
 // eslint-disable-next-line no-unused-vars
-const realReport = (account) => {
-	const report = axios.post(hypeAuditorUrl, `username=${account}&v=2`, {
+const realReport = async (account) => {
+	const report = await axios.post(hypeAuditorUrl, `username=${account}&v=2`, {
 		headers: {
 			'Content-Type': 'application/x-www-form-urlencoded',
 			'x-auth-id': hypeAuditorId,
@@ -106,7 +129,8 @@ const realReport = (account) => {
 	});
 
 	if (process.env.NODE_ENV === 'development') {
-		// save json file
+		const { likes_comments_ratio_chart, following_chart, followers_chart, ...filteredReport } = report.data.result.user;
+		await writeFile('./saved-reports/' + account + '-' + (+new Date()) + '.json', JSON.stringify(filteredReport));
 	}
 
 	return report;
@@ -118,15 +142,13 @@ const fakeReport = () => new Promise(resolve => {
 	}, 500);
 });
 
-const environmentGetReport = process.env.NODE_ENV === 'development'
-	? fakeReport
-	: fakeReport;
+const environmentGetReport = () => process.env.NODE_ENV === 'development' ? fakeReport : realReport;
 
 const getReport = async (account) => {
 	const firstName = 'משתמש/ת יקר/ה';
 
 	try {
-		const report = await environmentGetReport(account);
+		const report = await environmentGetReport()(account);
 		const reportData = report.data;
 		const userData = reportData.result.user;
 		const reportObject = buildReportObjectFromUserDate(userData, firstName);
