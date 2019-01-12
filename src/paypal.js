@@ -32,6 +32,10 @@ const authorizeRequest = async () => {
 };
 
 const validatePayment = async id => {
+	if (process.env.NODE_ENV === 'development') {
+		return true;
+	}
+
 	const token = await authorizeRequest();
 
 	if (!token) {
