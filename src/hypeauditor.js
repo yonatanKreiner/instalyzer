@@ -97,13 +97,19 @@ const titleToColorClass = (title) => {
 
 // eslint-disable-next-line no-unused-vars
 const realReport = (account) => {
-	return axios.post(hypeAuditorUrl, `username=${account}&v=2`, {
+	const report = axios.post(hypeAuditorUrl, `username=${account}&v=2`, {
 		headers: {
 			'Content-Type': 'application/x-www-form-urlencoded',
 			'x-auth-id': hypeAuditorId,
 			'x-auth-token': hypeAuditorToken,
 		}
 	});
+
+	if(process.env.NODE_ENV === 'development') {
+		// save json file
+	}
+
+	return report;
 };
 
 const fakeReport = () => new Promise(resolve => {
