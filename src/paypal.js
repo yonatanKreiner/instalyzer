@@ -32,7 +32,7 @@ const authorizeRequest = async () => {
 };
 
 const validatePayment = async id => {
-	if (process.env.NODE_ENV === 'development') {
+	if (!process.env.PAYPAL_ENABLE) {
 		return true;
 	}
 
