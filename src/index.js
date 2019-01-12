@@ -108,4 +108,12 @@ router.use((err, req, res, next) => {
 	res.status(500).send('internal server error');
 });
 
+process.on('uncaughtException', err => {
+	logger.error(err, 'uncaughtException');
+});
+
+process.on('unhandledRejection', err => {
+	logger.error(err, 'uncaughtException');
+});
+
 module.exports = router;
