@@ -8,13 +8,7 @@ const mockReportJson = require('./mock-report.json');
 
 const axios = require('axios');
 
-// const hypeAuditorUrl = 'https://hypeauditor.com/api/method/auditor.report';
-// const hypeAuditorId = '254005'; // mbinyaminov@gmail.com
-// const hypeAuditorToken = '$2y$04$lNSSjKwkeoyBizp66xYFz.RDK0ccXse7BGV/oqTTyyCO0Ib9jMrj6';
-
 const hypeAuditorUrl = 'https://hypeauditor.com/api/method/auditor.report';
-const hypeAuditorId = '308530';
-const hypeAuditorToken = '$2y$04$c1jaLFCo25rCXk9yqkeThunkA.wwQ16ayiIqXG7E4D5npidzeb.7y';
 
 const buildReportObjectFromUserDate = (userData, firstName) => {
 	const {
@@ -120,13 +114,22 @@ const formatEmailHtml = (emailHtml, reportObject) => {
 
 // eslint-disable-next-line no-unused-vars
 const realReport = async (account) => {
-	const report = await axios.post(hypeAuditorUrl, `username=${account}&v=2`, {
-		headers: {
-			'Content-Type': 'application/x-www-form-urlencoded',
-			'x-auth-id': hypeAuditorId,
-			'x-auth-token': hypeAuditorToken,
+	let report = null;
+	try {
+		report = await axios.post(hypeAuditorUrl, `username=${account}&v=2`, {
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+				'x-auth-id': process.env.HYPEAUDITOR_ID,
+				'x-auth-token': process.env.HYPEAUDITOR_TOKEN,
+			}
+		});
+	} catch (err) {
+		if (err.response && err.response.data && err.response.data.error) {
+			throw JSON.stringify(err.response.data.error);
+		} else {
+			throw err;
 		}
-	});
+	}
 
 	if (process.env.NODE_ENV === 'development') {
 		const { likes_comments_ratio_chart, following_chart, followers_chart, ...filteredReport } = report.data.result.user;
@@ -151,6 +154,10 @@ const getReport = async (account) => {
 		const report = await environmentGetReport()(account);
 		const reportData = report.data;
 		const userData = reportData.result.user;
+		if (userData.followers_count && userData.followers_count < 1000) {
+			throw `User ${account} has 1000 or less followers (${userData.followers_count})`;
+		}
+
 		const reportObject = buildReportObjectFromUserDate(userData, firstName);
 
 		const emailHtml = await readFile('./src/email-format.html', 'utf8');
@@ -159,7 +166,7 @@ const getReport = async (account) => {
 		return formattedHtml;
 
 	} catch (err) {
-		logger.error('failed getting report', err);
+		logger.fatal('failed getting report', err);
 	}
 };
 

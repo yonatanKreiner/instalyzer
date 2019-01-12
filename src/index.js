@@ -64,15 +64,19 @@ router.post('/report', async (req, res, next) => {
 				} else if (!isEmailAddressValid(mail)) {
 					logErrorRequestMessage('email address not valid', req, res);
 				} else {
-					await sendReportByMail(mail, account);
-					res.send('OK');
+					const followers = (await instagram.getAccount(account)).followerCount;
+					if (followers < 1000) {
+						logErrorRequestMessage('less then 1000 followers', req, res);
+					} else {
+						await sendReportByMail(mail, account);
+						res.send('OK');
+					}
 				}
 			}
 		} else {
 			res.status(400).send('payment could not be validated');
 		}
 	} catch (err) {
-
 		next(err);
 	}
 });
