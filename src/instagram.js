@@ -32,7 +32,7 @@ const getAccount = async (account) => {
 };
 
 const getPopularSearches = async () => {
-	return await Promise.all([
+	return Promise.all([
 		getAccount('eyalgolan1'),
 		getAccount('static_official'),
 		getAccount('noakirel_'),
