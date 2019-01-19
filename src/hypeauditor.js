@@ -73,7 +73,7 @@ const audienceTypeData = (audienceType) => {return audienceType &&
 	(audienceType.real ? `<li><span class="report-classified-user-type">אנשים אמיתיים</span><span>${audienceType.real}%</span></li>` : '') +
 	(audienceType.moreThen5000Followings ? `<li><span class="report-classified-user-type">בעלי יותר מ-5000 עוקבים</span><span>${audienceType.moreThen5000Followings}%</span></li>` : '') +
 	(audienceType.moreThen1500Followers ? `<li><span class="report-classified-user-type">עוקבים אחר יותר מ-1500 חשבונות</span><span>${audienceType.moreThen1500Followers}%</span></li>` : '') +
-	(audienceType.suspicious ? `<li><span class="report-classified-user-type">חשודים כמזויפים</span><span>${audienceType.suspicious}%</span></li>` : '') +
+	(audienceType.suspicious ? `<li><span class="report-classified-user-type">משתמשים חשודים</span><span>${audienceType.suspicious}%</span></li>` : '') +
 	`</ul>
 </th>`
 	: '';}
