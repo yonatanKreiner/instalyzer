@@ -47,10 +47,46 @@ const titleToColorClass = (title) => {
 
 	if (titleLower === 'very good') {
 		return colorStart + 'very-good';
+	} else if (titleLower === 'could be improved') {
+		return colorStart + 'could-be-improved';
 	}
 
 	return colorStart + titleLower;
 };
+
+const demographyData = (demographyData) => (demographyData && demographyData.length) ?
+	`<span class="mesaurement-value-text">
+		<span style="margin-left: 5px">אחוז גברים עוקבים:</span>
+		<span>${demographyData.find((x) => x.gender === 'male').value}%</span>
+	</span>
+	<span class="mesaurement-value-text" style="margin-bottom: 30px;">
+		<span style="margin-left: 5px">אחוז נשים עוקבות:</span>
+		<span>${demographyData.find((x) => x.gender === 'female').value}%</span>
+	</span>`
+	: '';
+
+const audienceTypeData = (audienceType) => {return audienceType &&
+	(audienceType.moreThen1500Followers || audienceType.moreThen5000Followings || audienceType.real || audienceType.suspicious)
+	? `<th class="table-body-row">
+<span style="text-decoration: underline">סיווג</span>
+<ul style="margin: 0; list-style: none; padding: 0;">` +
+	(audienceType.real ? `<li><span class="report-classified-user-type">אנשים אמיתיים</span><span>${audienceType.real}%</span></li>` : '') +
+	(audienceType.moreThen5000Followings ? `<li><span class="report-classified-user-type">בעלי יותר מ-5000 עוקבים</span><span>${audienceType.moreThen5000Followings}%</span></li>` : '') +
+	(audienceType.moreThen1500Followers ? `<li><span class="report-classified-user-type">עוקבים אחר יותר מ-1500 חשבונות</span><span>${audienceType.moreThen1500Followers}%</span></li>` : '') +
+	(audienceType.suspicious ? `<li><span class="report-classified-user-type">חשודים כמזויפים</span><span>${audienceType.suspicious}%</span></li>` : '') +
+	`</ul>
+</th>`
+	: '';}
+
+const moreDetailsSection = (shouldShow) => shouldShow
+	? `
+<th class="mesaurement-section" class="table-body-row">
+<span class="measurement-title" style="margin-top: 15px;">מידע
+	נוסף</span>
+%AD_POSTS_PERCENTAGE_SECTION%
+%DEMOGRAPHY_DATA_SECTION%
+</th>`
+	: '';
 
 const adEngagementRateData = (adEngagementRate) => adEngagementRate
 	? `<th class="mesaurement-section" class="table-body-row">
@@ -90,10 +126,7 @@ const formatEmailHtml = (emailHtml, reportObject) => {
 		.replace(new RegExp('%USERNAME%', 'g'), reportObject.username)
 		.replace('%AUDIENCE_QUALITY%', reportObject.audienceQualityScore.value)
 		.replace('%AUDIENCE_QUALITY_TITLE%', titleEnglishToHebrew(reportObject.audienceQualityScore.title))
-		.replace('%REAL_PEOPLE%', reportObject.audienceType.real)
-		.replace('%INFLUENCERS%', reportObject.audienceType.moreThen5000Followings)
-		.replace('%MASS_FOLLOWERS%', reportObject.audienceType.moreThen1500Followers)
-		.replace('%FAKE%', reportObject.audienceType.suspicious)
+		.replace('%AUDIENCE_TYPE_SECTION%', audienceTypeData(reportObject.audienceType))
 		.replace('%LIKE_TO_COMMENT_RATIO_TITLE%', titleEnglishToHebrew(reportObject.likesToCommentRatio.title))
 		.replace('%LIKE_TO_COMMENT_RATIO_COLOR%', titleToColorClass(reportObject.likesToCommentRatio.title))
 		.replace('%LIKE_TO_COMMENT_RATIO_VALUE%', reportObject.likesToCommentRatio.value)
@@ -107,9 +140,9 @@ const formatEmailHtml = (emailHtml, reportObject) => {
 		.replace('%ACTIVE_FOLLOWERS_VALUE%', reportObject.engagementRate.value)
 		.replace('%ACTIVE_FOLLOWERS_AVG%', reportObject.engagementRate.avg)
 		.replace('%ACTIVE_FOLLOWERS_AD_SECTION%', adEngagementRateData(reportObject.adEngagementRate))
+		.replace('%MORE_DETAILS_SECTION%', moreDetailsSection(reportObject.adPostsPercentage && reportObject.demography.length))
 		.replace('%AD_POSTS_PERCENTAGE_SECTION%', adPostsPercentageData(reportObject.adPostsPercentage))
-		.replace('%MALE_PERCENTAGE%', reportObject.demography.find((x) => x.gender === 'male').value)
-		.replace('%FEMALE_PERCENTAGE%', reportObject.demography.find((x) => x.gender === 'female').value);
+		.replace('%DEMOGRAPHY_DATA_SECTION%', demographyData(reportObject.demography))
 };
 
 // eslint-disable-next-line no-unused-vars
@@ -132,8 +165,11 @@ const realReport = async (account) => {
 	}
 
 	if (process.env.NODE_ENV === 'development') {
-		const { likes_comments_ratio_chart, following_chart, followers_chart, ...filteredReport } = report.data.result.user;
-		await writeFile('./saved-reports/' + account + '-' + (+new Date()) + '.json', JSON.stringify(filteredReport));
+		const userReportData = report.data.result.user;
+		delete userReportData.likes_comments_ratio_chart;
+		delete userReportData.followers_chart;
+		delete userReportData.following_chart;
+		await writeFile('./saved-reports/' + account + '-' + (+new Date()) + '.json', JSON.stringify(userReportData));
 	}
 
 	return report;
@@ -145,7 +181,7 @@ const fakeReport = () => new Promise(resolve => {
 	}, 500);
 });
 
-const environmentGetReport = () => process.env.NODE_ENV === 'development' ? fakeReport : realReport;
+const environmentGetReport = () => process.env.REPORT_TYPE === 'REAL' ? realReport : fakeReport;
 
 const getReport = async (account) => {
 	const firstName = 'משתמש/ת יקר/ה';

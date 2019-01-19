@@ -3,19 +3,23 @@
 <head>
     <style>
         .title-color-poor {
-            background-color: #F6491E;
+            background-color: #d12800;
+        }
+
+        .title-color-could-be-improved {
+            background-color: #e99a89;
         }
 
         .title-color-average {
-            background-color: #F6CB1E;
+            background-color: #dfe9e0;
         }
 
         .title-color-good {
-            background-color: #E8F61E;
+            background-color: #56ceb5;
         }
 
         .title-color-very-good {
-            background-color: #58F61E;
+            background-color: #18b495;
         }
 
         .title-color-excellent {
@@ -49,16 +53,19 @@
             display: block;
             text-decoration: underline;
         }
+
         .mesaurement-level-text {
             font-size: 16px;
             font-weight: bold;
         }
+
         .mesaurement-value-text {
             font-size: 14px;
             color: rgb(119, 119, 119);
             margin-top: 7px;
             display: block;
         }
+
         .mesaurement-section {
             height: 100px;
         }
@@ -105,15 +112,7 @@
                     </th>
                 </tr>
                 <tr>
-                    <th class="table-body-row">
-                        <span style="text-decoration: underline">סיווג</span>
-                        <ul style="margin: 0; list-style: none; padding: 0;">
-                            <li><span class="report-classified-user-type">אנשים אמיתיים</span><span>%REAL_PEOPLE%%</span></li>
-                            <li><span class="report-classified-user-type">בעלי יותר מ-5000 עוקבים</span><span>%INFLUENCERS%%</span></li>
-                            <li><span class="report-classified-user-type">עוקבים אחר יותר מ-1500 חשבונות</span><span>%MASS_FOLLOWERS%%</span></li>
-                            <li><span class="report-classified-user-type">חשודים כמזויפים</span><span>%FAKE%%</span></li>
-                        </ul>
-                    </th>
+                    %AUDIENCE_TYPE_SECTION%
                 </tr>
                 <tr>
                     <th class="mesaurement-section" class="table-body-row">
@@ -155,19 +154,7 @@
                     %ACTIVE_FOLLOWERS_AD_SECTION%
                 </tr>
                 <tr>
-                    <th class="mesaurement-section" class="table-body-row">
-                        <span class="measurement-title" style="margin-top: 15px;">מידע
-                            נוסף</span>
-                        %AD_POSTS_PERCENTAGE_SECTION%
-                        <span class="mesaurement-value-text">
-                            <span style="margin-left: 5px">אחוז גברים עוקבים:</span>
-                            <span>%MALE_PERCENTAGE%%</span>
-                        </span>
-                        <span class="mesaurement-value-text" style="margin-bottom: 30px;">
-                            <span style="margin-left: 5px">אחוז נשים עוקבות:</span>
-                            <span>%FEMALE_PERCENTAGE%%</span>
-                        </span>
-                    </th>
+                    %MORE_DETAILS_SECTION%
                 </tr>
                 <tr>
                     <th>
