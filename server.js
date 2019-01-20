@@ -15,6 +15,10 @@ app.use(cors({
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+app.get('/health', (req, res) => {
+	res.send('OK');
+});
 app.use('/', router);
 
 app.listen(app.get('port'), () => {
