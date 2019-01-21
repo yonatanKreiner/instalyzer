@@ -1,21 +1,23 @@
-const HTML5ToPDF = require('html5-to-pdf');
+const logger = require('./logger');
+const pdf = require('html-pdf');
 
-const htmlToPdf = async (filePath) => {
-	const htmlPath = filePath + '.html';
-	const pdfPath = filePath + '.pdf';
-
-	const html2pdf = new HTML5ToPDF({
-		inputPath: htmlPath,
-		outputPath: pdfPath,
-		printBackground: true,
-		options: {
-			printBackground: true,
-		}
+const htmlToPdfPromise = (pdfPath, htmlText) => {
+	const options = {};
+	return new Promise((resolve, reject) => {
+		pdf.create(htmlText, options).toFile(pdfPath, (err, res) => {
+			const obj = { html: htmlText, pdfPath: pdfPath };
+			if (err) {
+				logger.error('failed generating pdf', obj);
+			} else {
+				logger.info('successfuly generated pdf', obj);
+			}
+			resolve();
+		})
 	});
+}
 
-	await html2pdf.start();
-	await html2pdf.build();
-	await html2pdf.close();
+const htmlToPdf = async (pdfPath, htmlText) => {
+	await htmlToPdfPromise(pdfPath, htmlText);
 }
 
 module.exports = htmlToPdf;

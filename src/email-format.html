@@ -27,17 +27,31 @@
         }
 
         .flex-row {
+            display: -webkit-box;
+            display: -ms-flexbox;
             display: flex;
+            -webkit-box-orient: horizontal;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: row;
             flex-direction: row;
         }
 
         .flex-column {
+            display: -webkit-box;
+            display: -ms-flexbox;
             display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: column;
             flex-direction: column;
         }
 
         .page-container {
+            -webkit-box-align: center;
+            -ms-flex-align: center;
             align-items: center;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
             justify-content: center;
         }
 
@@ -46,6 +60,8 @@
         }
 
         .header-container {
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
             justify-content: center;
             border-bottom: 1px solid rgba(0, 0, 0, .0975);
         }
@@ -53,6 +69,8 @@
         .header {
             width: 600px;
             height: 75px;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
             align-items: center;
         }
 
@@ -89,8 +107,9 @@
 
         .report-body-container {
             background-color: #fafafa;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
             justify-content: center;
-            height: 900px;
         }
 
         .report-body {
@@ -110,8 +129,15 @@
         }
 
         .info-section-rate-container {
+            display: -webkit-box;
+            display: -ms-flexbox;
             display: flex;
+            -webkit-box-orient: horizontal;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: row;
             flex-direction: row;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
             align-items: center;
             margin-bottom: 5px;
         }
@@ -137,6 +163,8 @@
         }
 
         .account-authentic-container {
+            -webkit-box-align: center;
+            -ms-flex-align: center;
             align-items: center;
             background-color: #e0e0e0;
             font-weight: bold;
@@ -161,9 +189,18 @@
 
         .website-link-container {
             margin-top: 10px;
+            display: -webkit-box;
+            display: -ms-flexbox;
             display: flex;
+            -webkit-box-orient: horizontal;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: row;
             flex-direction: row;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
             align-items: center;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
             justify-content: center;
         }
     </style>
