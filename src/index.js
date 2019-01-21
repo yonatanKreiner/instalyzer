@@ -68,7 +68,7 @@ router.post('/report', async (req, res, next) => {
 					if (followers < 1000) {
 						logErrorRequestMessage('less then 1000 followers', req, res);
 					} else {
-						await sendReportByMail(mail, account);
+						sendReportByMail(mail, account);
 						res.send('OK');
 					}
 				}

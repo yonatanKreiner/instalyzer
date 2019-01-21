@@ -216,12 +216,11 @@ const getReport = async (account) => {
 		const emailHtml = await readFile('./src/email-format.html', 'utf8');
 		const formattedHtml = formatEmailHtml(emailHtml, reportObject);
 
-		const htmlPath = './saved-reports' + account + '-' + (+new Date());
-		await writeFile(htmlPath + '.html', formattedHtml);
-		const pdfPath = await htmlToPdf(htmlPath);
+		const filePath = './saved-reports/' + account + '-' + (+new Date());
+		await writeFile(filePath + '.html', formattedHtml);
+		await htmlToPdf(filePath);
 
-
-		return pdfPath;
+		return filePath;
 
 	} catch (err) {
 		logger.fatal('failed getting report', err);
