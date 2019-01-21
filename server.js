@@ -8,9 +8,17 @@ const app = express();
 
 app.set('port', process.env.PORT || 3001);
 
-app.use(cors());
+app.use(cors({
+	origin: process.env.ORIGIN,
+	optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}));
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+app.get('/health', (req, res) => {
+	res.send('OK');
+});
 app.use('/', router);
 
 app.listen(app.get('port'), () => {
