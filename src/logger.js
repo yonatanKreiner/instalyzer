@@ -11,13 +11,13 @@ const messageText = (message) => {
 	} else {
 		return message;
 	}
-}
+};
 
 const log = (message, info, type) => {
 	const _message = messageText(message);
-	db.log(message, info, type);
-	console.log(type, info, message);
-}
+	db.log(_message, info, type);
+	console.log(type, info, _message);
+};
 
 const info = async (message, info) => {
 	log(message, info, INFO);
@@ -33,7 +33,7 @@ const error = async (message, info) => {
 
 const fatal = async (message, info) => {
 	log(message, info, FATAL);
-}
+};
 
 module.exports = {
 	info,
