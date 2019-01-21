@@ -45,15 +45,14 @@ const buildReportObjectFromUserDate = (userData, firstName) => {
 
 const titleToColorClass = (title) => {
 	const titleLower = title.toLowerCase();
-	const colorStart = 'title-color-';
 
 	if (titleLower === 'very good') {
-		return colorStart + 'very-good';
+		return 'very-good';
 	} else if (titleLower === 'could be improved') {
-		return colorStart + 'could-be-improved';
+		return 'could-be-improved';
 	}
 
-	return colorStart + titleLower;
+	return titleLower;
 };
 
 const audienceTypeData = (audienceType) => {
@@ -116,7 +115,7 @@ const adEngagementRateData = (adEngagementRate) => adEngagementRate
 	? `<div class="flex-column section-margin">
 	<div class="info-section-title">אחוז עוקבים פעילים על תוכן פרסומי</div>
 	<div class="info-section-rate-container">
-		<div class="info-section-rate-circle ${titleToColorClass(adEngagementRate.title)}"></div>
+		<div class="info-section-rate-circle title-color-${titleToColorClass(adEngagementRate.title)}"></div>
 		<div>${titleEnglishToHebrew(adEngagementRate.title)}</div>
 	</div>
 	<div class="classification-metric-addition-data">
@@ -143,6 +142,7 @@ const formatEmailHtml = (emailHtml, reportObject) => {
 		.replace(new RegExp('%USERNAME%', 'g'), reportObject.username)
 		.replace('%AUDIENCE_QUALITY%', reportObject.audienceQualityScore.value)
 		.replace('%AUDIENCE_QUALITY_TITLE%', titleEnglishToHebrew(reportObject.audienceQualityScore.title))
+		.replace('%AUDIENCE_QUALITY_COLOR%', titleToColorClass(reportObject.audienceQualityScore.title))
 		.replace('%AUDIENCE_TYPE_SECTION%', audienceTypeData(reportObject.audienceType))
 		.replace('%LIKE_TO_COMMENT_RATIO_TITLE%', titleEnglishToHebrew(reportObject.likesToCommentRatio.title))
 		.replace('%LIKE_TO_COMMENT_RATIO_COLOR%', titleToColorClass(reportObject.likesToCommentRatio.title))

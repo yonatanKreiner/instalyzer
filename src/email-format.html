@@ -26,6 +26,30 @@
             background-color: #2CF61E;
         }
 
+        .authentic-title-color-poor {
+            color: #d12800;
+        }
+
+        .authentic-title-color-could-be-improved {
+            color: #e99a89;
+        }
+
+        .authentic-title-color-average {
+            color: #93b396;
+        }
+
+        .authentic-title-color-good {
+            color: #56ceb5;
+        }
+
+        .authentic-title-color-very-good {
+            color: #18b495;
+        }
+
+        .authentic-title-color-excellent {
+            color: #27c11d;
+        }
+
         .flex-row {
             display: -webkit-box;
             display: -ms-flexbox;
@@ -175,10 +199,6 @@
             margin-left: 7px;
         }
 
-        .account-authentic-number {
-            color: green
-        }
-
         .account-name {
             margin: 0 5px;
         }
@@ -240,14 +260,14 @@
                     </div>
                     <div class="flex-row section-margin account-authentic-container">
                         <div class="account-authentic-title">רמת אמינות החשבון:</div>
-                        <div class="account-authentic-number">%AUDIENCE_QUALITY%/100 (%AUDIENCE_QUALITY_TITLE%)</div>
+                        <div class="authentic-title-color-%AUDIENCE_QUALITY_COLOR%">%AUDIENCE_QUALITY%/100 (%AUDIENCE_QUALITY_TITLE%)</div>
                     </div>
                     %AUDIENCE_TYPE_SECTION%
                     <div class="flex-column">
                         <div class="flex-column section-margin">
                             <div class="info-section-title">יחס לייקים לתגובות</div>
                             <div class="info-section-rate-container">
-                                <div class="info-section-rate-circle %LIKE_TO_COMMENT_RATIO_COLOR%"></div>
+                                <div class="info-section-rate-circle title-color-%LIKE_TO_COMMENT_RATIO_COLOR%"></div>
                                 <div>%LIKE_TO_COMMENT_RATIO_TITLE%</div>
                             </div>
                             <div class="classification-metric-addition-data">
@@ -257,7 +277,7 @@
                         <div class="flex-column section-margin">
                             <div class="info-section-title">אמינות עוקבים</div>
                             <div class="info-section-rate-container">
-                                <div class="info-section-rate-circle %FOLLOWERS_AUTHENTICITY_COLOR%"></div>
+                                <div class="info-section-rate-circle title-color-%FOLLOWERS_AUTHENTICITY_COLOR%"></div>
                                 <div>%FOLLOWERS_AUTHENTICITY_TITLE%</div>
                             </div>
                             <div class="classification-metric-addition-data">
@@ -268,7 +288,7 @@
                             <div class="info-section-title">אחוז עוקבים פעילים (מבצעים לייק או
                                 תגובה)</div>
                             <div class="info-section-rate-container">
-                                <div class="info-section-rate-circle %ACTIVE_FOLLOWERS_COLOR%"></div>
+                                <div class="info-section-rate-circle title-color-%ACTIVE_FOLLOWERS_COLOR%"></div>
                                 <div>%ACTIVE_FOLLOWERS_TITLE%</div>
                             </div>
                             <div class="classification-metric-addition-data">
