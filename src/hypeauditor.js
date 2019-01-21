@@ -1,6 +1,8 @@
 const fs = require('fs');
 const util = require('util');
 const logger = require('./logger');
+const htmlToPdf = require('./htmlToPdf');
+
 const readFile = util.promisify(fs.readFile);
 const writeFile = util.promisify(fs.writeFile);
 
@@ -54,58 +56,73 @@ const titleToColorClass = (title) => {
 	return colorStart + titleLower;
 };
 
-const demographyData = (demographyData) => (demographyData && demographyData.length) ?
-	`<span class="mesaurement-value-text">
-		<span style="margin-left: 5px">אחוז גברים עוקבים:</span>
-		<span>${demographyData.find((x) => x.gender === 'male').value}%</span>
-	</span>
-	<span class="mesaurement-value-text" style="margin-bottom: 30px;">
-		<span style="margin-left: 5px">אחוז נשים עוקבות:</span>
-		<span>${demographyData.find((x) => x.gender === 'female').value}%</span>
-	</span>`
-	: '';
-
-const audienceTypeData = (audienceType) => {return audienceType &&
-	(audienceType.moreThen1500Followers || audienceType.moreThen5000Followings || audienceType.real || audienceType.suspicious)
-	? `<th class="table-body-row">
-<span style="text-decoration: underline">סיווג</span>
-<ul style="margin: 0; list-style: none; padding: 0;">` +
-	(audienceType.real ? `<li><span class="report-classified-user-type">אנשים אמיתיים</span><span>${audienceType.real}%</span></li>` : '') +
-	(audienceType.moreThen5000Followings ? `<li><span class="report-classified-user-type">בעלי יותר מ-5000 עוקבים</span><span>${audienceType.moreThen5000Followings}%</span></li>` : '') +
-	(audienceType.moreThen1500Followers ? `<li><span class="report-classified-user-type">עוקבים אחר יותר מ-1500 חשבונות</span><span>${audienceType.moreThen1500Followers}%</span></li>` : '') +
-	(audienceType.suspicious ? `<li><span class="report-classified-user-type">משתמשים חשודים</span><span>${audienceType.suspicious}%</span></li>` : '') +
-	`</ul>
-</th>`
-	: '';}
+const audienceTypeData = (audienceType) => {
+	return audienceType &&
+		(audienceType.moreThen1500Followers || audienceType.moreThen5000Followings || audienceType.real || audienceType.suspicious)
+		? `<div class="flex-column section-margin">
+			<div class="underline-text">סיווג</div>`
+		+ (audienceType.real
+			? `<div class="flex-row">
+						<div class="classification-title">אנשים אמיתיים</div>
+						<div>${audienceType.real}%</div>
+					</div>`
+			: '')
+		+ (audienceType.moreThen5000Followings
+			? `<div class="flex-row">
+						<div class="classification-title">בעלי יותר מ-5000 עוקבים</div>
+						<div>${audienceType.moreThen5000Followings}%</div>
+					</div>`
+			: '')
+		+ (audienceType.moreThen1500Followers
+			? `<div class="flex-row">
+						<div class="classification-title">עוקבים אחר יותר מ-1500 חשבונות</div>
+						<div>${audienceType.moreThen1500Followers}%</div>
+					</div>`
+			: '')
+		+ (audienceType.suspicious
+			? `<div class="flex-row section-margin">
+								<div class="classification-title">משתמשים חשודים</div>
+								<div>${audienceType.suspicious}%</div>
+							</div>`
+			: ''
+			+ `</div>`)
+		: '';
+}
 
 const moreDetailsSection = (shouldShow) => shouldShow
-	? `
-<th class="mesaurement-section" class="table-body-row">
-<span class="measurement-title" style="margin-top: 15px;">מידע
-	נוסף</span>
-%AD_POSTS_PERCENTAGE_SECTION%
-%DEMOGRAPHY_DATA_SECTION%
-</th>`
-	: '';
-
-const adEngagementRateData = (adEngagementRate) => adEngagementRate
-	? `<th class="mesaurement-section" class="table-body-row">
-	<span class="measurement-title">אחוז
-		עוקבים פעילים על תוכן פרסומי</span>
-	<span>
-		<span class='${titleToColorClass(adEngagementRate.title)}' style="display: inline-block; width: 12px; height: 12px; border-radius: 10px;"></span>
-		<span class="mesaurement-level-text">${titleEnglishToHebrew(adEngagementRate.title)}</span>
-	</span>
-	<span class="mesaurement-value-text">${adEngagementRate.value}%
-		מבצעים פעולות אקטיביות על תוכן פרסומי, הממוצע הוא ${adEngagementRate.avg}%</span>
-</th>`
+	? `<div class="flex-column section-margin">
+	<div class="info-section-title">מידע נוסף</div>
+	%AD_POSTS_PERCENTAGE_SECTION%
+	%DEMOGRAPHY_DATA_SECTION%
+</div>`
 	: '';
 
 const adPostsPercentageData = (adPostsPercentage) => adPostsPercentage
-	? `<span class="mesaurement-value-text">
-	<span style="margin-left: 5px">אחוז פוסטים פרסומיים:</span>
-	<span>${adPostsPercentage}%</span>
-</span>`
+	? `<div class="classification-more-data classification-metric-addition-data">
+	אחוז פוסטים פרסומיים: ${adPostsPercentage}%
+</div>`
+	: '';
+
+const demographyData = (demographyData) => (demographyData && demographyData.length)
+	? `<div class="classification-more-data classification-metric-addition-data">
+אחוז גברים עוקבים: ${demographyData.find((x) => x.gender === 'male').value}%
+</div>
+<div class="classification-more-data classification-metric-addition-data">
+אחוז נשים עוקבות: ${demographyData.find((x) => x.gender === 'female').value}%
+</div>`
+	: '';
+
+const adEngagementRateData = (adEngagementRate) => adEngagementRate
+	? `<div class="flex-column section-margin">
+	<div class="info-section-title">אחוז עוקבים פעילים על תוכן פרסומי</div>
+	<div class="info-section-rate-container">
+		<div class="info-section-rate-circle ${titleToColorClass(adEngagementRate.title)}"></div>
+		<div>${titleEnglishToHebrew(adEngagementRate.title)}</div>
+	</div>
+	<div class="classification-metric-addition-data">
+	${adEngagementRate.value}% מבצעים פעולות אקטיביות על תוכן פרסומי, הממוצע הוא ${adEngagementRate.avg}%
+	</div>
+</div>`
 	: '';
 
 const titleEnglishToHebrew = (title) => {
@@ -199,7 +216,12 @@ const getReport = async (account) => {
 		const emailHtml = await readFile('./src/email-format.html', 'utf8');
 		const formattedHtml = formatEmailHtml(emailHtml, reportObject);
 
-		return formattedHtml;
+		const htmlPath = './saved-reports' + account + '-' + (+new Date());
+		await writeFile(htmlPath + '.html', formattedHtml);
+		const pdfPath = await htmlToPdf(htmlPath);
+
+
+		return pdfPath;
 
 	} catch (err) {
 		logger.fatal('failed getting report', err);

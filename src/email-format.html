@@ -1,4 +1,4 @@
-<html style="direction:rtl">
+<html dir="rtl">
 
 <head>
     <style>
@@ -26,144 +26,228 @@
             background-color: #2CF61E;
         }
 
-        .table-body-row {
-            font-weight: normal;
-            font-size: 15px;
-            text-align: right;
+        .flex-row {
+            display: flex;
+            flex-direction: row;
         }
 
-        .page-link:hover {
-            text-decoration: underline;
+        .flex-column {
+            display: flex;
+            flex-direction: column;
         }
 
-        .page-link {
-            color: #0074ff;
+        .page-container {
+            align-items: center;
+            justify-content: center;
+        }
+
+        .report-container {
+            width: 100%;
+        }
+
+        .header-container {
+            justify-content: center;
+            border-bottom: 1px solid rgba(0, 0, 0, .0975);
+        }
+
+        .header {
+            width: 600px;
+            height: 75px;
+            align-items: center;
+        }
+
+        .logo-link {
             text-decoration: none;
         }
 
-        .report-classified-user-type {
-            width: 230px;
-            display: inline-flex;
+        .logo-img {
+            margin-right: 15px;
+            width: 35px
         }
 
-        .measurement-title {
-            font-size: 16px;
-            margin-bottom: 5px;
+        .header-separator {
+            height: 33px;
+            border-right: 1px solid black;
+            margin: 0px 15px;
+        }
+
+        .header-title-brand-name {
+            font-family: 'Open Sans';
+            font-size: 20px;
+        }
+
+        .header-title-brand-desc {
+            font-size: 12px;
+            color: rgb(119, 119, 119);
+            font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+        }
+
+        .link {
+            text-decoration: none;
+            color: #0074ff;
+        }
+
+        .report-body-container {
+            background-color: #fafafa;
+            justify-content: center;
+            height: 900px;
+        }
+
+        .report-body {
+            width: 550px;
+            padding: 15px;
+            font-size: 15px;
+            font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+        }
+
+        .section-margin {
+            margin-bottom: 15px;
+        }
+
+        .info-section-title {
             font-weight: bold;
-            display: block;
+            margin-bottom: 5px;
+        }
+
+        .info-section-rate-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .info-section-rate-circle {
+            width: 12px;
+            height: 12px;
+            border-radius: 50px;
+            margin-left: 5px;
+        }
+
+        .classification-title {
+            width: 230px;
+        }
+
+        .classification-more-data {
+            margin-bottom: 5px;
+        }
+
+        .classification-metric-addition-data {
+            font-size: 13px;
+            color: rgb(119, 119, 119)
+        }
+
+        .account-authentic-container {
+            align-items: center;
+            background-color: #e0e0e0;
+            font-weight: bold;
+            padding: 10px 5px;
+        }
+
+        .account-authentic-title {
+            margin-left: 7px;
+        }
+
+        .account-authentic-number {
+            color: green
+        }
+
+        .account-name {
+            margin: 0 5px;
+        }
+
+        .underline-text {
             text-decoration: underline;
         }
 
-        .mesaurement-level-text {
-            font-size: 16px;
-            font-weight: bold;
-        }
-
-        .mesaurement-value-text {
-            font-size: 14px;
-            color: rgb(119, 119, 119);
-            margin-top: 7px;
-            display: block;
-        }
-
-        .mesaurement-section {
-            height: 100px;
+        .website-link-container {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
         }
     </style>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 </head>
-<table align='center' style="color: black; text-align: right; width: 500px; border: 1px solid black">
-    <tr style="height: 75px; border-bottom: 1px solid rgba(0,0,0,.0975);">
-        <th style="border-bottom: 1px solid rgba(0,0,0,.0975)">
-            <a target="_blank" rel="noopener noreferrer" style="text-decoration: none" href="http://www.instalyzer.co.il">
-                <img style="margin-right: 10px; width: 35px" src="https://ci6.googleusercontent.com/proxy/xaBDS_1A3shiYTmMwFcJtm6kbgFdj1LNkGdJ53rNiaSPMGIFmxu8LwJxMPNcuKKdsq_I3RY4elcn2ADpVb-b2HxiqUhjK_nNn6kp8u4=s0-d-e1-ft#http://www.instalyzer.co.il/static/media/logo.36f31357.png"
-                    alt="">
-            </a>
-            <div style="display: inline-block; height: 33px; margin: 0px 15px; border: 1px solid black"></div>
-            <table style="height: 45px; display: inline-block; text-align: right;">
-                <tr>
-                    <th style="font-family: 'Open Sans'; font-size: 20px; font-weight: normal;">Instalyzer</th>
-                </tr>
-                <tr>
-                    <th style="color: rgb(119, 119, 119); font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif; font-size: 12px; font-weight: normal;">
-                        בדיקה מקצועית של חשבונות אינסטגרם
-                    </th>
-                </tr>
-            </table>
-        </th>
-    </tr>
-    <tr style="font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif; background-color: #fafafa; height: 300px;">
-        <th style="font-weight: normal;">
-            <table style="margin-right: 15px;">
-                <tr>
-                    <th style="height:25px" class="table-body-row">היי %FIRST_NAME%,</th>
-                </tr>
-                <tr>
-                    <th style="height:60px;" class="table-body-row">
-                        <span>דו"ח Instalyzer שלך עבור המשתמש</span>
-                        <span><a class="page-link" target="_blank" rel="noopener noreferrer" href="https://www.instagram.com/%USERNAME%/">%USERNAME%</a></span>
-                        <span>מוכן והתוצאות מסוכמות להלן:</span>
-                    </th>
-                </tr>
-                <tr>
-                    <th style="background-color: #e0e0e0; font-weight: bold; padding: 10px;" class="table-body-row">
-                        <span>רמת אמינות החשבון:</span>
-                        <span style="color: green; margin-right: 5px">%AUDIENCE_QUALITY%/100 (%AUDIENCE_QUALITY_TITLE%)</span>
-                    </th>
-                </tr>
-                <tr>
+
+<body>
+    <div class="flex-row page-container">
+        <div class="report-container">
+            <div class="flex-row header-container">
+                <div class="flex-row header">
+                    <div>
+                        <a class="logo-link" target="_blank" rel="noopener noreferrer" href="http://www.instalyzer.co.il">
+                            <img class="logo-img" src="https://ci6.googleusercontent.com/proxy/xaBDS_1A3shiYTmMwFcJtm6kbgFdj1LNkGdJ53rNiaSPMGIFmxu8LwJxMPNcuKKdsq_I3RY4elcn2ADpVb-b2HxiqUhjK_nNn6kp8u4=s0-d-e1-ft#http://www.instalyzer.co.il/static/media/logo.36f31357.png"
+                                alt="" />
+                        </a>
+                    </div>
+                    <div class="header-separator"></div>
+                    <div class="flex-column">
+                        <div class="header-title-brand-name">Instalyzer</div>
+                        <div class="header-title-brand-desc">בדיקה
+                            מקצועית של חשבונות אינסטגרם
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex-row report-body-container">
+                <div class="report-body">
+                    <div class="section-margin">
+                        היי %FIRST_NAME%,
+                    </div>
+                    <div class="flex-row section-margin">
+                        דו"ח Instalyzer שלך עבור המשתמש <a class="link account-name" target="_blank" rel="noopener noreferrer"
+                            href="https://www.instagram.com/%USERNAME%/">%USERNAME%</a>
+                        מוכן והתוצאות מסוכמות להלן:
+                    </div>
+                    <div class="flex-row section-margin account-authentic-container">
+                        <div class="account-authentic-title">רמת אמינות החשבון:</div>
+                        <div class="account-authentic-number">%AUDIENCE_QUALITY%/100 (%AUDIENCE_QUALITY_TITLE%)</div>
+                    </div>
                     %AUDIENCE_TYPE_SECTION%
-                </tr>
-                <tr>
-                    <th class="mesaurement-section" class="table-body-row">
-                        <span style="font-size: 16px; margin-bottom: 5px; font-weight: bold; display: block">יחס לייקים
-                            לתגובות</span>
-                        <span>
-                            <span class='%LIKE_TO_COMMENT_RATIO_COLOR%' style="display: inline-block; width: 12px; height: 12px; border-radius: 10px;"></span>
-                            <span class="mesaurement-level-text">%LIKE_TO_COMMENT_RATIO_TITLE%</span>
-                        </span>
-                        <span class="mesaurement-value-text">%LIKE_TO_COMMENT_RATIO_VALUE%
-                            לייקים לכל תגובה, הממוצע הוא %LIKE_TO_COMMENT_RATIO_AVG%</span>
-                    </th>
-                </tr>
-                <tr>
-                    <th class="mesaurement-section" class="table-body-row">
-                        <span class="measurement-title">אמינות
-                            עוקבים</span>
-                        <span>
-                            <span class='%FOLLOWERS_AUTHENTICITY_COLOR%' style="display: inline-block; width: 12px; height: 12px; border-radius: 10px;"></span>
-                            <span class="mesaurement-level-text">%FOLLOWERS_AUTHENTICITY_TITLE%</span>
-                        </span>
-                        <span class="mesaurement-value-text">%FOLLOWERS_AUTHENTICITY_VALUE%%
-                            עוקבים אמינים, הממוצע הוא %FOLLOWERS_AUTHENTICITY_AVG%%</span>
-                    </th>
-                </tr>
-                <tr>
-                    <th class="mesaurement-section" class="table-body-row">
-                        <span class="measurement-title">אחוז
-                            עוקבים פעילים (מבצעים לייק או תגובה)</span>
-                        <span>
-                            <span class='%ACTIVE_FOLLOWERS_COLOR%' style="display: inline-block; width: 12px; height: 12px; border-radius: 10px;"></span>
-                            <span class="mesaurement-level-text">%ACTIVE_FOLLOWERS_TITLE%</span>
-                        </span>
-                        <span class="mesaurement-value-text">%ACTIVE_FOLLOWERS_VALUE%%
-                            מבצעים פעולות אקטיביות, הממוצע הוא %ACTIVE_FOLLOWERS_AVG%%</span>
-                    </th>
-                </tr>
-                <tr>
-                    %ACTIVE_FOLLOWERS_AD_SECTION%
-                </tr>
-                <tr>
-                    %MORE_DETAILS_SECTION%
-                </tr>
-                <tr>
-                    <th>
-                        <a target="_blank" rel="noopener noreferrer" style="color: #0074ff; text-decoration: none" href="http://www.instalyzer.co.il">www.instalyzer.co.il</a>
-                    </th>
-                </tr>
-            </table>
-        </th>
-    </tr>
-</table>
+                    <div class="flex-column">
+                        <div class="flex-column section-margin">
+                            <div class="info-section-title">יחס לייקים לתגובות</div>
+                            <div class="info-section-rate-container">
+                                <div class="info-section-rate-circle %LIKE_TO_COMMENT_RATIO_COLOR%"></div>
+                                <div>%LIKE_TO_COMMENT_RATIO_TITLE%</div>
+                            </div>
+                            <div class="classification-metric-addition-data">
+                                %LIKE_TO_COMMENT_RATIO_VALUE% לייקים לכל תגובה, הממוצע הוא %LIKE_TO_COMMENT_RATIO_AVG%
+                            </div>
+                        </div>
+                        <div class="flex-column section-margin">
+                            <div class="info-section-title">אמינות עוקבים</div>
+                            <div class="info-section-rate-container">
+                                <div class="info-section-rate-circle %FOLLOWERS_AUTHENTICITY_COLOR%"></div>
+                                <div>%FOLLOWERS_AUTHENTICITY_TITLE%</div>
+                            </div>
+                            <div class="classification-metric-addition-data">
+                                %FOLLOWERS_AUTHENTICITY_VALUE%% עוקבים אמינים, הממוצע הוא %FOLLOWERS_AUTHENTICITY_AVG%%
+                            </div>
+                        </div>
+                        <div class="flex-column section-margin">
+                            <div class="info-section-title">אחוז עוקבים פעילים (מבצעים לייק או
+                                תגובה)</div>
+                            <div class="info-section-rate-container">
+                                <div class="info-section-rate-circle %ACTIVE_FOLLOWERS_COLOR%"></div>
+                                <div>%ACTIVE_FOLLOWERS_TITLE%</div>
+                            </div>
+                            <div class="classification-metric-addition-data">
+                                %ACTIVE_FOLLOWERS_VALUE%% מבצעים פעולות אקטיביות, הממוצע הוא %ACTIVE_FOLLOWERS_AVG%%
+                            </div>
+                        </div>
+                        %ACTIVE_FOLLOWERS_AD_SECTION%
+                        %MORE_DETAILS_SECTION%
+                        <div class="website-link-container"><a class="link" href="https://www.instalyzer.co.il">https://www.instalyzer.co.il</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+</body>
 
 </html>

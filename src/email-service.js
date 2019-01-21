@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer');
 const logger = require('./logger');
 
-const sendEmail = async (toAddress, subject, message, isHtml) => {
+const sendEmail = async (toAddress, subject, message, isHtml, attachments) => {
 	const transporter = nodemailer.createTransport({
 		service: 'gmail',
 		auth: {
@@ -20,6 +20,8 @@ const sendEmail = async (toAddress, subject, message, isHtml) => {
 	} else {
 		mailOptions.text = message;
 	}
+
+	mailOptions.attachments = attachments;
 
 	transporter.sendMail(mailOptions, (err) => {
 		if (err) {
@@ -41,7 +43,12 @@ const sendHtmlEmail = async (toAddress, subject, message) => {
 	sendEmail(toAddress, subject, message, true);
 };
 
+const sendEmailWithAttachments = async(toAddress, subject, message, attachments) => {
+	sendEmail(toAddress, subject, message, false, attachments)
+}
+
 module.exports = {
 	sendTextEmail,
 	sendHtmlEmail,
+	sendEmailWithAttachments,
 };

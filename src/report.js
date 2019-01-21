@@ -1,12 +1,12 @@
 const getReport = require('./hypeauditor');
-const sendHtmlEmail = require('./email-service').sendHtmlEmail;
+const sendEmailWithAttachments = require('./email-service').sendEmailWithAttachments;
 
 const REPORT_SUBJECT = 'דו"ח Instalyzer.co.il';
 
 const sendReportByMail = async (toAddress, account) => {
-	const report = await getReport(account);
-	if (report) {
-		sendHtmlEmail(toAddress, REPORT_SUBJECT, report);
+	const reportPdfPath = await getReport(account);
+	if (reportPdfPath) {
+		sendEmailWithAttachments(toAddress, REPORT_SUBJECT, 'הדו"ח מוכן ומצורף כקובץ למייל', [{ path: reportPdfPath }]);
 	}
 };
 
