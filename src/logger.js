@@ -14,9 +14,7 @@ const messageText = (message) => {
 };
 
 const log = (message, info, type) => {
-	const _message = messageText(message);
-	db.log(_message, info, type);
-	console.log(type, info, _message);
+	db.log(messageText(message), info, type);
 };
 
 const info = async (message, info) => {

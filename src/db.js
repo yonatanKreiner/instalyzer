@@ -37,22 +37,20 @@ const upsertMail = async (mail) => {
 };
 
 const log = async (message, info, type = 'UNKNOWN') => {
-	if (process.env.NODE_ENV === 'production') {
-		const entry = {
-			message,
-			timestamp: new Date(),
-			type: type,
-		};
-		
-		if (info && info.errorMessage) {
-			info.errorMessage = util.inspect(info.errorMessage);
-		}
-		
-		if (info) {
-			await insert('logs', { ...entry, info });
-		} else {
-			await insert('logs', entry);
-		}
+	const entry = {
+		message,
+		timestamp: new Date(),
+		type: type,
+	};
+	
+	if (info && info.errorMessage) {
+		info.errorMessage = util.inspect(info.errorMessage);
+	}
+	
+	if (info) {
+		await insert('logs', { ...entry, info });
+	} else {
+		await insert('logs', entry);
 	}
 };
 
