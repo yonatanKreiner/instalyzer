@@ -9,8 +9,6 @@ const validators = require('./validators');
 const isEmailAddressValid = validators.isEmailAddressValid;
 const isStringNullOrEmpty = validators.isStringNullOrEmpty;
 
-require('dotenv').config();
-
 const router = express.Router();
 
 const buildRequestJson = (req) => JSON.stringify({
