@@ -6,15 +6,15 @@ const searchAccounts = async (account) => {
 };
 
 const getAccount = async (account) => {
-	// let accountStatistics = axios.post('https://fetcher.igaudit.io/users', { usernames: [account] });
+	let accountStatistics = axios.get(`https://fetcher.igaudit.io/user/${account}`);
 	let accountSearch = searchAccounts(account);
 	const accountData = await Promise
-		.all([/*accountStatistics*/, accountSearch]) // TODO: this is a fix for now because igaudit doesnt work!
+		.all([accountStatistics, accountSearch])
 		.catch((err) => {
-			console.error(err)
+			console.error(err);
 		});
 
-	// accountStatistics = accountData[0].data.data[0];
+	accountStatistics = accountData[0].data.response;
 	accountSearch = accountData[1];
 
 	if (accountSearch) {
@@ -25,9 +25,9 @@ const getAccount = async (account) => {
 				username: filteredAccount.username,
 				full_name: filteredAccount.full_name,
 				avatar_url: filteredAccount.avatar_url,
-				// mediaPosts: accountStatistics.mediaPosts,
-				// followingCount: accountStatistics.followingCount,
-				// followerCount: accountStatistics.followerCount,
+				mediaPosts: accountStatistics.mediaPosts,
+				followingCount: accountStatistics.followingCount,
+				followerCount: accountStatistics.followerCount,
 			});
 		} else {
 			return {};
