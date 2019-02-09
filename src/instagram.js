@@ -38,7 +38,7 @@ const getAccount = async (account) => {
 const getPopularSearches = async () => {
 	return Promise.all([
 		getAccount('eyalgolan1'),
-		getAccount('static_official'),
+		getAccount('staticofficial'),
 		getAccount('noakirel_'),
 		getAccount('gal_gadot')
 	]);
